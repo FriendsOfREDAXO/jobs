@@ -35,11 +35,11 @@ jobs_type_TEMPORARY = Temporär
 jobs_type_VOLUNTEER = Praktikum
 jobs_zip_code = Postleitzahl
 
-jobs_rights_all = D2U Stellenmarkt Addon
-jobs_rights_edit_data = D2U Stellenmarkt Addon: Editierrechte für sprachübergreifende Inhalte
-jobs_rights_edit_lang = D2U Stellenmarkt Addon: Editierrechte für Übersetzungen und sprachspezifische Inhalte (es gelten die Sprachen der Rolleneinstellungen)
-jobs_rights_hr4you = D2U Stellenmarkt Addon: HR4You Import Plugin 
-jobs_rights_settings = D2U Stellenmarkt Addon: Einstellungen
+jobs_rights_all = Stellenmarkt Addon
+jobs_rights_edit_data = Stellenmarkt Addon: Editierrechte für sprachübergreifende Inhalte
+jobs_rights_edit_lang = Stellenmarkt Addon: Editierrechte für Übersetzungen und sprachspezifische Inhalte (es gelten die Sprachen der Rolleneinstellungen)
+jobs_rights_hr4you = Stellenmarkt Addon: HR4You Import Plugin 
+jobs_rights_settings = Stellenmarkt Addon: Einstellungen
 
 jobs_hr4you = HR4YOU Import
 jobs_hr4you_activate = HR4YOU Import nutzen

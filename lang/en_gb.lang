@@ -35,10 +35,11 @@ jobs_type_TEMPORARY = Temporary
 jobs_type_VOLUNTEER = Volunteer
 jobs_zip_code = ZIP code
 
-jobs_rights_all = D2U Jobs addon
-jobs_rights_edit_data = D2U Jobs addon: edit rights for data
-jobs_rights_edit_lang = D2U Jobs addon: edit rights for translations (languages set in user roles apply)
-jobs_rights_settings = D2U Jobs addon: settings
+jobs_rights_all = Jobs addon
+jobs_rights_edit_data = Jobs addon: edit rights for data
+jobs_rights_edit_lang = Jobs addon: edit rights for translations (languages set in user roles apply)
+jobs_rights_hr4you = Jobs addon: HR4You import plugin 
+jobs_rights_settings = Jobs addon: settings
 
 jobs_hr4you = HR4YOU Import
 jobs_hr4you_activate = Use HR4YOU import
@@ -57,5 +58,3 @@ jobs_hr4you_settings_headline_tag = HTML heading tag used in XML file for headin
 jobs_hr4you_settings_default_lang = Import default language
 jobs_hr4you_settings_xml_url = HR4You XML URL
 jobs_hr4you_url_application_form = URL HR4You application form
-
-jobs_rights_hr4you = D2U Jobs addon: HR4You import plugin 
