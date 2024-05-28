@@ -3,7 +3,7 @@ version: '1.0.0'
 author: FriendsOfREDAXO
 
 page:
-    title: 'translate:jobs'
+    title: 'translate:jobs_title'
     perm: 'jobs[]'
     icon: rex-icon fa-users
     subpages:
