@@ -146,9 +146,6 @@ if (!rex_config::has('article_id')) { /** @phpstan-ignore-line */
 if (!rex_config::has('jobs', 'hr4you_default_lang')) {
     rex_config::set('jobs', 'hr4you_default_lang', rex_clang::getStartId());
 }
-if(rex_plugin::get('jobs', 'hr4you_import')->isAvailable()) {
-    rex_config::set('jobs', 'use_hr4you', true);
-}
 
 // Insert frontend translations
 if (class_exists(\FriendsOfRedaxo\Jobs\LangHelper::class)) {
