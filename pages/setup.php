@@ -29,6 +29,10 @@ $d2u_module_manager->showManagerList();
 <p>Fehlermeldungen bitte im Git Projekt unter
 	<a href="https://github.com/FriendsOfREDAXO/jobs/issues" target="_blank">https://github.com/FriendsOfREDAXO/jobs/issues</a> melden.</p>
 <h2>Changelog</h2>
+<p>1.0.1-DEV:</p>
+<ul>
+	<li>Bugfix: beim Löschen eines Kontakts wurde der Name der Stellenanzeige nicht angezeigt wenn er nicht der Standardsprache verfügbar war.</li>
+</ul>
 <p>1.0.0:</p>
 <ul>
 	<li>Initiale Version.</li>

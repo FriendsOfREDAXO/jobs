@@ -117,20 +117,26 @@ class Contact
      */
     public function getJobs()
     {
-        $clang_id = (int) rex_config::get('d2u_helper', 'default_lang');
-        $query = 'SELECT jobs.job_id FROM '. rex::getTablePrefix() .'jobs_jobs AS jobs '
-            .'LEFT JOIN '. rex::getTablePrefix() .'jobs_jobs_lang AS lang '
-                .'ON jobs.job_id = lang.job_id AND lang.clang_id = '. $clang_id .' '
-            .'WHERE contact_id = '. $this->contact_id .' ';
-        $query .= 'ORDER BY name ASC';
+        $query = 'SELECT lang.job_id, clang_id FROM '. rex::getTablePrefix() .'jobs_jobs_lang AS lang '
+                .'LEFT JOIN '. rex::getTablePrefix() .'jobs_jobs AS jobs '
+                    .'ON lang.job_id = jobs.job_id '
+                .'WHERE contact_id = '. $this->contact_id .' '
+                .'ORDER BY name ASC';
+
         $result = rex_sql::factory();
         $result->setQuery($query);
 
         $jobs = [];
         for ($i = 0; $i < $result->getRows(); ++$i) {
-            $jobs[] = new Job((int) $result->getValue('job_id'), $clang_id);
+            if (!isset($jobs[$result->getValue('job_id')]) || (int) $result->getValue('clang_id') === (int) rex_config::get('d2u_helper', 'default_lang')) {
+                $job = new Job((int) $result->getValue('job_id'), (int) $result->getValue('clang_id'));
+                if ($job->job_id > 0) {
+                    $jobs[$result->getValue('job_id')] = $job;
+                }
+            }
             $result->next();
         }
+        
         return $jobs;
     }
 
