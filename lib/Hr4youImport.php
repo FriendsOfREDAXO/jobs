@@ -26,7 +26,7 @@ class Hr4youImport
     {
         // Include mediapool functions when call is frontend call
         if (!rex::isBackend()) {
-            require_once __DIR__ . '/../../../../mediapool/functions/function_rex_mediapool.php';
+            require_once rex_path::addon('mediapool', 'functions/function_rex_mediapool.php');
         }
 
         if (self::import()) {
