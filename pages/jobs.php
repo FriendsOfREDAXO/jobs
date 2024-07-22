@@ -117,7 +117,7 @@ if ('edit' === $func || 'clone' === $func || 'add' === $func) {
 ?>
 	<form action="<?= rex_url::currentBackendPage() ?>" method="post">
 		<div class="panel panel-edit">
-			<header class="panel-heading"><div class="panel-title"><?= rex_i18n::msg('jobs') ?></div></header>
+			<header class="panel-heading"><div class="panel-title"><?= rex_i18n::msg('jobs_jobs') ?></div></header>
 			<div class="panel-body">
 				<input type="hidden" name="form[job_id]" value="<?= 'edit' === $func ? $entry_id : 0 ?>">
 				<fieldset>
