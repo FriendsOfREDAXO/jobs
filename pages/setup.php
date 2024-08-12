@@ -4,7 +4,7 @@
  */
 $d2u_module_manager = new \TobiasKrais\D2UHelper\ModuleManager(\FriendsOfRedaxo\Jobs\Module::getModules(), 'modules/', 'jobs');
 
-// \TobiasKrais\D2UHelper\ModuleManager actions
+// ModuleManager actions
 $d2u_module_id = rex_request('d2u_module_id', 'string');
 $paired_module = rex_request('pair_'. $d2u_module_id, 'int');
 $function = rex_request('function', 'string');
@@ -12,7 +12,7 @@ if ('' !== $d2u_module_id) {
     $d2u_module_manager->doActions($d2u_module_id, $function, $paired_module);
 }
 
-// \TobiasKrais\D2UHelper\ModuleManager show list
+// ModuleManager show list
 $d2u_module_manager->showManagerList();
 
 ?>
@@ -31,6 +31,7 @@ $d2u_module_manager->showManagerList();
 <h2>Changelog</h2>
 <p>1.0.1-DEV:</p>
 <ul>
+	<li>Bugfix: Fehlertexte für Uploadfeld im Bewerbungsformular hinzugefügt.</li>
 	<li>Bugfix: beim Löschen eines Kontakts wurde der Name der Stellenanzeige nicht angezeigt wenn er nicht der Standardsprache verfügbar war.</li>
 	<li>Bugfix: der HR4You Stellenimport hatte eine falsche Verzeichnisangabe und funktionierte nicht wenn er im Cronjob aufgerufen wurde.</li>
 </ul>

@@ -104,9 +104,7 @@ if (rex::isBackend()) {
 					text|city|'. \Sprog\Wildcard::get('d2u_helper_module_form_city', $job->clang_id) .'|||
 					text|phone|'. \Sprog\Wildcard::get('d2u_helper_module_form_phone', $job->clang_id) .' *|||{"required":"required"}
 					text|email|'. \Sprog\Wildcard::get('d2u_helper_module_form_email', $job->clang_id) .' *|||{"required":"required"}
-					textarea|message|'. \Sprog\Wildcard::get('d2u_helper_module_form_message', $job->clang_id) .'
-					upload|upload|'. \Sprog\Wildcard::get('jobs_module_attachment', $job->clang_id) .'|0,10000|.pdf,.odt,.doc,.docx,.zip
-					checkbox|privacy_policy_accepted|'. \Sprog\Wildcard::get('d2u_helper_module_form_privacy_policy', $job->clang_id) .' *|0,1|0';
+					textarea|message|'. \Sprog\Wildcard::get('d2u_helper_module_form_message', $job->clang_id);
             if (rex_addon::get('yform_spam_protection')->isAvailable()) {
                 $form_data .= '
 					spam_protection|honeypot|Leave empty|'. \Sprog\Wildcard::get('d2u_helper_module_form_validate_spam_detected', $job->clang_id) .'|0';
@@ -121,10 +119,6 @@ if (rex::isBackend()) {
 					html|honeypot||</div>';
             }
             $form_data .= '
-					html||<br>* '. \Sprog\Wildcard::get('d2u_helper_module_form_required', $job->clang_id) .'<br><br>
-
-					submit|submit|'. \Sprog\Wildcard::get('d2u_helper_module_form_send', $job->clang_id) .'|no_db
-
 					validate|empty|name|'. \Sprog\Wildcard::get('d2u_helper_module_form_validate_name', $job->clang_id) .'
 					validate|empty|phone|'. \Sprog\Wildcard::get('d2u_helper_module_form_validate_phone', $job->clang_id) .'
 					validate|empty|email|'. \Sprog\Wildcard::get('d2u_helper_module_form_validate_email', $job->clang_id) .'
@@ -135,7 +129,23 @@ if (rex::isBackend()) {
 					action|tpl2email|jobs_application|'. rex_config::get('jobs', 'email');
 
             $yform->setFormData(trim($form_data));
-            $yform->setValueField('php', ['php_attach', \Sprog\Wildcard::get('jobs_module_attachment', $job->clang_id), '<?php if (isset($this->params["value_pool"]["files"])) { $this->params["value_pool"]["email_attachments"] = $this->params["value_pool"]["files"]; } ?>']);
+			$upload_config = [
+				'sizes' => ['min' => 100, 'max' => 100000],
+				'allowed_extensions' => ['pdf', 'odt', 'doc', 'docx', 'zip'],
+				'messages' => [
+					'min_error' => \Sprog\Wildcard::get('jobs_module_attachment_min_error_msg', $job->clang_id),
+					'max_error' => \Sprog\Wildcard::get('jobs_module_attachment_max_error_msg', $job->clang_id),
+					'type_error' => \Sprog\Wildcard::get('jobs_module_attachment_type_error_msg', $job->clang_id),
+					'empty_error' => \Sprog\Wildcard::get('jobs_module_attachment_empty_error_msg', $job->clang_id),
+					'delete_file' => \Sprog\Wildcard::get('jobs_module_attachment_delete_file_msg', $job->clang_id),
+					'system_error' => \Sprog\Wildcard::get('jobs_module_attachment_system_error_msg', $job->clang_id)
+				]
+			];
+			$yform->setValueField('upload', ['upload', \Sprog\Wildcard::get('jobs_module_attachment', $job->clang_id), 'config' => json_encode($upload_config)]);
+			$yform->setValueField('php', ['php_attach', \Sprog\Wildcard::get('jobs_module_attachment', $job->clang_id), '<?php if (isset($this->params["value_pool"]["files"])) { $this->params["value_pool"]["email_attachments"] = $this->params["value_pool"]["files"]; } ?>']);
+
+			$yform->setValueField('checkbox', ['privacy_policy_accepted', \Sprog\Wildcard::get('d2u_helper_module_form_privacy_policy', $job->clang_id), '0']);
+			$yform->setValidateField('empty', ['privacy_policy_accepted', \Sprog\Wildcard::get('d2u_helper_module_form_validate_privacy_policy', $job->clang_id)]);
 
             $yform->setObjectparams('Error-occured', \Sprog\Wildcard::get('d2u_helper_module_form_validate_title', $job->clang_id));
             $yform->setObjectparams('form_action', $job_application_link);

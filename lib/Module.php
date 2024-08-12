@@ -18,7 +18,7 @@ class Module
         $modules = [];
         $modules[] = new \TobiasKrais\D2UHelper\Module('23-1',
             'Stellenmarkt - Stellenanzeigen',
-            13);
+            14);
         $modules[] = new \TobiasKrais\D2UHelper\Module('23-2',
             'Stellenmarkt - Kategorien',
             3);
