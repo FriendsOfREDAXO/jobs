@@ -179,7 +179,7 @@ if (rex::isBackend()) {
             }
             if ('' !== $job->hr4you_url_application_form) {
                 echo '<p><a target="_blank" href="'. $job->hr4you_url_application_form .'">'
-                    .'<button class="d2u_application_form_button">'. $tag_open .'jobs_hr4you_application_link'. $tag_close .'<span class="jobs_arrow_right"></span></button></a></p>';
+                    .'<button class="d2u_application_form_button">'. $tag_open .'jobs_application_link'. $tag_close .'<span class="jobs_arrow_right"></span></button></a></p>';
             } elseif ($show_application_form) { /** @phpstan-ignore-line */
                 echo '<p><a href="'. $job_application_link .'" title="'. \Sprog\Wildcard::get('jobs_application_link', $job->clang_id) .'">'
                     .'<button class="d2u_application_form_button">'. \Sprog\Wildcard::get('jobs_application_link', $job->clang_id)
@@ -223,7 +223,7 @@ if (rex::isBackend()) {
             if ('' !== $job->hr4you_url_application_form) {
                 echo '<div class="col-12">';
                 echo '<a target="_blank" href="'. $job->hr4you_url_application_form .'">'
-                    .'<button class="d2u_application_form_button">'. $tag_open .'jobs_hr4you_application_link'. $tag_close .'<span class="jobs_arrow_right"></span></button></a>';
+                    .'<button class="d2u_application_form_button">'. $tag_open .'jobs_application_link'. $tag_close .'<span class="jobs_arrow_right"></span></button></a>';
                 echo '</div>';
             } elseif ($show_application_form) { /** @phpstan-ignore-line */
                 echo '<div class="col-12">';
