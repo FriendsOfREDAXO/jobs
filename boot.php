@@ -22,11 +22,11 @@ if (rex::isBackend()) {
     rex_extension::register('ART_PRE_DELETED', rex_jobs_article_is_in_use(...));
     rex_extension::register('CLANG_DELETED', rex_jobs_clang_deleted(...));
     rex_extension::register('D2U_HELPER_ALTERNATE_URLS', rex_jobs_alternate_urls(...));
-    rex_extension::register('D2U_HELPER_BREADCRUMBS', rex_jobs_breadcrumbs(...));
     rex_extension::register('D2U_HELPER_TRANSLATION_LIST', rex_jobs_translation_list(...));
     rex_extension::register('MEDIA_IS_IN_USE', rex_jobs_media_is_in_use(...));
 }
 else {
+    rex_extension::register('D2U_HELPER_BREADCRUMBS', rex_jobs_breadcrumbs(...));
     // Delete attachments after sending application e-mails
     rex_extension::register('YFORM_EMAIL_SENT', static function (rex_extension_point $ep_yform_sent) {
         if ('jobs_application' === $ep_yform_sent->getSubject()) {
