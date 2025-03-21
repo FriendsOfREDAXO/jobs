@@ -6,7 +6,6 @@ use rex;
 use rex_addon;
 use rex_clang;
 use rex_config;
-use rex_plugin;
 use rex_sql;
 use rex_url;
 use rex_user;
