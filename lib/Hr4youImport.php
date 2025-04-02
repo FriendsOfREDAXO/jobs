@@ -239,12 +239,12 @@ class Hr4youImport
 
     /**
      * Isolates headline from text.
-     * @param string $string String potenially containing headline
+     * @param SimpleXMLElement $string String potenially containing headline
      * @return string headline text without tags
      */
-    private static function getHeadline($string)
+    private static function getHeadline(SimpleXMLElement $string)
     {
-        if ('' === $string) {
+        if ('' === (string) $string) {
             return '';
         }
 
@@ -260,10 +260,10 @@ class Hr4youImport
 
     /**
      * Removes headline from text.
-     * @param string $string String with text potentially containing headline
+     * @param SimpleXMLElement $string String with text potentially containing headline
      * @return string text without headline
      */
-    private static function stripHeadline($string)
+    private static function stripHeadline(SimpleXMLElement$string)
     {
         $headline = self::getHeadline($string);
 

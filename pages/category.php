@@ -1,4 +1,7 @@
 <?php
+
+use D2U_Jobs\Job;
+
 $func = rex_request('func', 'string');
 $entry_id = rex_request('entry_id', 'int');
 $message = rex_get('message', 'string');
@@ -19,7 +22,7 @@ if (1 === (int) filter_input(INPUT_POST, 'btn_save') || 1 === (int) filter_input
     $category = false;
     $category_id = (int) $form['category_id'];
     foreach (rex_clang::getAll() as $rex_clang) {
-        if (false === $category) {
+        if (!$category instanceof FriendsOfRedaxo\Jobs\Category) {
             $category = new FriendsOfRedaxo\Jobs\Category($category_id, $rex_clang->getId());
             $category->category_id = $category_id; // Ensure correct ID in case first language has no object
             $category->priority = (int) $form['priority'];
@@ -88,7 +91,7 @@ if ('edit' === $func || 'add' === $func) {
 ?>
 	<form action="<?= rex_url::currentBackendPage() ?>" method="post">
 		<div class="panel panel-edit">
-			<header class="panel-heading"><div class="panel-title"><?= rex_i18n::msg('jobs') ?></div></header>
+			<header class="panel-heading"><div class="panel-title"><?= rex_i18n::msg('d2u_helper_category') ?></div></header>
 			<div class="panel-body">
 				<input type="hidden" name="form[category_id]" value="<?= $entry_id ?>">
 				<fieldset>

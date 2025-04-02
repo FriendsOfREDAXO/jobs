@@ -29,7 +29,7 @@ if (1 === (int) filter_input(INPUT_POST, 'btn_save') || 1 === (int) filter_input
     $job = false;
     $job_id = (int) $form['job_id'];
     foreach (rex_clang::getAll() as $rex_clang) {
-        if (false === $job) {
+        if (!$job instanceof Job) {
             $job = new Job($job_id, $rex_clang->getId());
             $job->job_id = $job_id; // Ensure correct ID in case first language has no object
             $job->reference_number = (string) $form['reference_number'];

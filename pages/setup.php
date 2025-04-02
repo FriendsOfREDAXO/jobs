@@ -35,6 +35,7 @@ $d2u_module_manager->showManagerList();
 	<li>Bugfix: Fehlertexte für Uploadfeld im Bewerbungsformular hinzugefügt.</li>
 	<li>Bugfix: beim Löschen eines Kontakts wurde der Name der Stellenanzeige nicht angezeigt wenn er nicht der Standardsprache verfügbar war.</li>
 	<li>Bugfix: der HR4You Stellenimport hatte eine falsche Verzeichnisangabe und funktionierte nicht wenn er im Cronjob aufgerufen wurde.</li>
+	<li>Bugfix: der HR4You Stellenimport stürzte bei einigen leeren Feldern ab.</li>
 </ul>
 <p>1.0.0:</p>
 <ul>
