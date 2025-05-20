@@ -105,8 +105,17 @@ if (1 === (int) filter_input(INPUT_POST, 'btn_delete', FILTER_VALIDATE_INT) || '
 elseif ('changestatus' === $func) {
     $job_id = $entry_id;
     $job = new Job($job_id, (int) rex_config::get('d2u_helper', 'default_lang', rex_clang::getStartId()));
-    $job->job_id = $job_id; // Ensure correct ID in case language has no object
+    if ($job->job_id === 0) {
+        // try all languages
+        foreach (rex_clang::getAll() as $rex_clang) {
+            $job = new Job($job_id, $rex_clang->getId());
+            if ($job->job_id > 0) {
+                break;
+            }
+        }
+    }
     $job->changeStatus();
+    $func = '';
 
     header('Location: '. rex_url::currentBackendPage());
     exit;
