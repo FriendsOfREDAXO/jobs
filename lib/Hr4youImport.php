@@ -181,7 +181,10 @@ class Hr4youImport
             $job->name = $xml_job->titel->__toString();
             $job->offer_heading = html_entity_decode('' !== self::getHeadline($xml_job->block3_html) ? self::getHeadline($xml_job->block3_html) : \Sprog\Wildcard::get('jobs_hr4you_offer_heading', (int) \rex_config::get('jobs', 'hr4you_default_lang')));
             $job->offer_text = html_entity_decode(self::trimString(self::stripHeadline($xml_job->block3_html)));
-            $job->online_status = 'online';
+            if ($job->job_id === 0) {
+                // avoid overwriting status of existing jobs
+                $job->online_status = 'online';
+            }
             if ('' !== $job_picture_filename) {
                 $job->picture = $job_picture_filename;
             }
