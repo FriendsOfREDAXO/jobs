@@ -31,7 +31,7 @@ $d2u_module_manager->showManagerList();
 <h2>Changelog</h2>
 <p>1.0.2-DEV:</p>
 <ul>
-	<li>...</li>
+	<li>Bugfix: alternative URLs wurden in D2U Helper Templates nicht korrekt dargestellt, da EP im Backend statt Frontend eingebunden war.</li>
 </ul>
 <p>1.0.1:</p>
 <ul>
