@@ -29,6 +29,10 @@ $d2u_module_manager->showManagerList();
 <p>Fehlermeldungen bitte im Git Projekt unter
 	<a href="https://github.com/FriendsOfREDAXO/jobs/issues" target="_blank">https://github.com/FriendsOfREDAXO/jobs/issues</a> melden.</p>
 <h2>Changelog</h2>
+<p>1.1.1-DEV:</p>
+<ul>
+	<li>...</li>
+</ul>
 <p>1.1.0:</p>
 <ul>
 	<li>Bugfix: alternative URLs wurden in D2U Helper Templates nicht korrekt dargestellt, da EP im Backend statt Frontend eingebunden war.</li>
