@@ -170,14 +170,15 @@ class Category implements \TobiasKrais\D2UHelper\ITranslationHelper
     }
 
     /**
-     * Get object by HR4You ID.
-     * @param int $hr4you_id HR4You ID
+     * Get object by HR4You Name.
+     * @param string $hr4you_name HR4You Name
      * @return Category|bool Category object, if available, otherwise false
      */
-    public static function getByHR4YouID($hr4you_id)
+    public static function getByHR4YouName($hr4you_name)
     {
-        $query = 'SELECT category_id FROM '. rex::getTablePrefix() .'jobs_categories '
-                .'WHERE hr4you_category_id = '. $hr4you_id;
+        $query = 'SELECT category_id FROM '. rex::getTablePrefix() .'jobs_categories_lang '
+                .'WHERE name = "'. $hr4you_name .'" '
+                .'LIMIT 1';
         $result = rex_sql::factory();
         $result->setQuery($query);
 

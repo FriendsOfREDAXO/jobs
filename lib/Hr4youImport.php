@@ -15,7 +15,7 @@ use SimpleXMLElement;
 
 /**
  * @api
- * Class managing all HR4You stuff.
+ * Class managing all HR4You v3 stuff.
  */
 class Hr4youImport
 {
@@ -74,11 +74,53 @@ class Hr4youImport
         }
 
         // Get new jobs
-        foreach ($xml_jobs->entry as $xml_job) {
+        foreach ($xml_jobs->job as $xml_job) {
             // Import pictures
             $job_picture_filename = '';
-            if ('' !== (string) $xml_job->kopfgrafik_url) {
-                $job_picture_pathInfo = pathinfo($xml_job->kopfgrafik_url);
+            if ('' !== (string) $xml_job->jobHeaderImage) {
+                // Clean URL first (remove query parameters)
+                $clean_url = strtok($xml_job->jobHeaderImage, '?');
+                $job_picture_pathInfo = pathinfo($clean_url);
+                
+                // If no extension or suspicious extension, detect from actual image data
+                if (!isset($job_picture_pathInfo['extension']) || empty($job_picture_pathInfo['extension']) || 
+                    !in_array(strtolower($job_picture_pathInfo['extension']), ['jpg', 'jpeg', 'png', 'gif', 'webp'])) {
+                    
+                    // Download a small part of the image to detect the real format
+                    $context = stream_context_create([
+                        'http' => [
+                            'method' => 'GET',
+                            'header' => 'Range: bytes=0-50' // Just get first 50 bytes to detect format
+                        ]
+                    ]);
+                    
+                    $image_data = file_get_contents($xml_job->jobHeaderImage, false, $context);
+                    if ($image_data !== false) {
+                        // Detect image type from binary data
+                        $detected_extension = self::detectImageExtensionFromData($image_data);
+                        if ($detected_extension) {
+                            $job_picture_pathInfo['extension'] = $detected_extension;
+                            self::log('Detected image format: ' . $detected_extension . ' for ' . $xml_job->jobHeaderImage);
+                        } else {
+                            $job_picture_pathInfo['extension'] = 'jpg'; // fallback
+                            self::log('Could not detect image format, using JPG fallback for ' . $xml_job->jobHeaderImage);
+                        }
+                    } else {
+                        $job_picture_pathInfo['extension'] = 'jpg'; // fallback
+                        self::log('Could not download image for format detection, using JPG fallback for ' . $xml_job->jobHeaderImage);
+                    }
+                    
+                    // Reconstruct basename with correct extension
+                    if (isset($job_picture_pathInfo['filename'])) {
+                        $job_picture_pathInfo['basename'] = $job_picture_pathInfo['filename'] . '.' . $job_picture_pathInfo['extension'];
+                    } else {
+                        $filename = basename($clean_url);
+                        // Remove any existing extension first
+                        $filename = pathinfo($filename, PATHINFO_FILENAME);
+                        $job_picture_pathInfo['basename'] = $filename . '.' . $job_picture_pathInfo['extension'];
+                    }
+                }
+                
                 $job_picture_filename = \TobiasKrais\D2UHelper\BackendHelper::getMediapoolFilename($job_picture_pathInfo['basename']);
                 $job_picture = \rex_media::get($job_picture_filename);
                 if ($job_picture instanceof \rex_media && $job_picture->fileExists()) {
@@ -100,12 +142,12 @@ class Hr4youImport
                     // Import
                     $target_picture = \rex_path::media($job_picture_pathInfo['basename']);
                     // Copy first
-                    if (copy($xml_job->kopfgrafik_url, $target_picture)) {
+                    if (copy($xml_job->jobHeaderImage, $target_picture)) {
                         chmod($target_picture, rex::getFilePerm());
 
                         $data = [];
                         $data['category_id'] = (int) \rex_config::get('jobs', 'hr4you_media_category');
-                        $data['title'] = (string) $xml_jobs->titel;
+                        $data['title'] = (string) $xml_jobs->jobTitle;
                         $data['file'] = [
                             'name' => $job_picture_pathInfo['basename'],
                             'path' => rex_path::media($job_picture_pathInfo['basename']),
@@ -124,19 +166,19 @@ class Hr4youImport
             }
 
             // Import contact
-            $contact = Contact::getByMail($xml_job->ap_email);
+            $contact = Contact::getByMail($xml_job->contactEmail);
             if ($contact instanceof Contact) {
                 self::log('Contact '. $contact->name .' already exists.');
             } else {
                 $contact = Contact::factory();
                 self::log('New Contact added.');
             }
-            $contact->name = $xml_job->ap_vorname . ' ' . $xml_job->ap_nachname;
-            if ('' !== $xml_job->ap_telefon->__toString()) {
-                $contact->phone = $xml_job->ap_telefon->__toString();
+            $contact->name = $xml_job->contactFirstname . ' ' . $xml_job->contactLastname;
+            if ('' !== $xml_job->contactPhone->__toString()) {
+                $contact->phone = $xml_job->contactPhone->__toString();
             }
-            if ('' !== $xml_job->ap_email->__toString()) {
-                $contact->email = $xml_job->ap_email->__toString();
+            if ('' !== $xml_job->contactEmail->__toString()) {
+                $contact->email = $xml_job->contactEmail->__toString();
             }
             $contact->save();
             if (array_key_exists($contact->contact_id, $old_contacts)) {
@@ -147,18 +189,18 @@ class Hr4youImport
             }
 
             // Category
-            $category = Category::getByHR4YouID((int) $xml_job->berufskategorie_id->__toString());
+            $category = Category::getByHR4YouName($xml_job->jobCategory->__toString());
             if (false === $category) {
-                self::log('Category with HR4You ID '. $xml_job->berufskategorie_id->__toString() .' does not exist. Falback to default category.');
+                self::log('Category with HR4You Name '. $xml_job->jobCategory->__toString() .' does not exist. Falback to default category.');
                 $category = new Category((int) \rex_config::get('jobs', 'hr4you_default_category'), (int) \rex_config::get('jobs', 'hr4you_default_lang'));
             }
 
             // Import job
-            $job = Job::getByHR4YouID((int) $xml_job->jobid->__toString());
+            $job = Job::getByHR4YouID((int) $xml_job->jobId->__toString());
             if (!$job instanceof Job) {
                 $job = Job::factory();
                 $job->clang_id = (int) \rex_config::get('jobs', 'hr4you_default_lang');
-                $job->hr4you_job_id = (int) $xml_job->jobid->__toString();
+                $job->hr4you_job_id = (int) $xml_job->jobId->__toString();
             }
 
             foreach (\rex_clang::getAll() as $clang) {
@@ -173,14 +215,14 @@ class Hr4youImport
                 $job->categories[$category->category_id] = $category;
             }
 
-            $job->city = $xml_job->arbeitsort->__toString();
-            $job->date = $xml_job->von_datum->__toString();
-            $job->hr4you_lead_in = $xml_job->einleitung->__toString();
-            $job->hr4you_url_application_form = $xml_job->url_application_form->__toString();
-            $job->internal_name = $xml_job->titel->__toString();
-            $job->name = $xml_job->titel->__toString();
-            $job->offer_heading = html_entity_decode('' !== self::getHeadline($xml_job->block3_html) ? self::getHeadline($xml_job->block3_html) : \Sprog\Wildcard::get('jobs_hr4you_offer_heading', (int) \rex_config::get('jobs', 'hr4you_default_lang')));
-            $job->offer_text = html_entity_decode(self::trimString(self::stripHeadline($xml_job->block3_html)));
+            $job->city = $xml_job->jobWorkplace->__toString();
+            $job->date = $xml_job->jobPublishingDateFrom->__toString();
+            $job->hr4you_lead_in = $xml_job->jobSummary->__toString();
+            $job->hr4you_url_application_form = $xml_job->applicationForm->__toString();
+            $job->internal_name = $xml_job->jobTitle->__toString();
+            $job->name = $xml_job->jobTitle->__toString();
+            $job->offer_heading = html_entity_decode('' !== self::getHeadline($xml_job->jobBenefits) ? self::getHeadline($xml_job->jobBenefits) : \Sprog\Wildcard::get('jobs_hr4you_offer_heading', (int) \rex_config::get('jobs', 'hr4you_default_lang')));
+            $job->offer_text = html_entity_decode(self::trimString(self::stripHeadline($xml_job->jobBenefits)));
             if ($job->job_id === 0) {
                 // avoid overwriting status of existing jobs
                 $job->online_status = 'online';
@@ -188,18 +230,18 @@ class Hr4youImport
             if ('' !== $job_picture_filename) {
                 $job->picture = $job_picture_filename;
             }
-            $job->profile_heading = html_entity_decode('' !== self::getHeadline($xml_job->block2_html) ? self::getHeadline($xml_job->block2_html) : \Sprog\Wildcard::get('jobs_hr4you_profile_heading', (int) \rex_config::get('jobs', 'hr4you_default_lang')));
-            $job->profile_text = html_entity_decode(self::trimString(self::stripHeadline($xml_job->block2_html)));
+            $job->profile_heading = html_entity_decode('' !== self::getHeadline($xml_job->jobRequirements) ? self::getHeadline($xml_job->jobRequirements) : \Sprog\Wildcard::get('jobs_hr4you_profile_heading', (int) \rex_config::get('jobs', 'hr4you_default_lang')));
+            $job->profile_text = html_entity_decode(self::trimString(self::stripHeadline($xml_job->jobRequirements)));
             $job->reference_number = $xml_job->referenznummer->__toString();
-            $job->tasks_heading = html_entity_decode('' !== self::getHeadline($xml_job->block1_html) ? self::getHeadline($xml_job->block1_html) : \Sprog\Wildcard::get('jobs_hr4you_tasks_heading', (int) \rex_config::get('jobs', 'hr4you_default_lang')));
-            $job->tasks_text = html_entity_decode(self::trimString(self::stripHeadline($xml_job->block1_html)));
-            if (3 === (int) $xml_job->stellenart_id->__toString()) {
+            $job->tasks_heading = html_entity_decode('' !== self::getHeadline($xml_job->jobResponsibilities) ? self::getHeadline($xml_job->jobResponsibilities) : \Sprog\Wildcard::get('jobs_hr4you_tasks_heading', (int) \rex_config::get('jobs', 'hr4you_default_lang')));
+            $job->tasks_text = html_entity_decode(self::trimString(self::stripHeadline($xml_job->jobResponsibilities)));
+            if ('Freiwillig' === $xml_job->jobEmploymentType->__toString()) {
                 $job->type = 'VOLUNTEER';
-            } elseif (5 === (int) $xml_job->stellenart_id->__toString()) {
+            } elseif ('Freelancer' === $xml_job->jobEmploymentType->__toString()) {
                 $job->type = 'CONTRACTOR';
-            } elseif (in_array((int) $xml_job->stellenart_id->__toString(), [6, 8], true)) {
+            } elseif (in_array($xml_job->jobEmploymentType->__toString(), ['Vollzeit'], true)) {
                 $job->type = 'FULL_TIME';
-            } elseif (in_array((int) $xml_job->stellenart_id->__toString(), [7, 9, 10], true)) {
+            } elseif (in_array($xml_job->jobEmploymentType->__toString(), ['Teilzeit'], true)) {
                 $job->type = 'PART_TIME';
             } else {
                 $job->type = 'OTHER';
@@ -286,6 +328,53 @@ class Hr4youImport
         $string = str_replace(['&nbsp;', '&crarr;'], ' ', $string);
         $string = (string) preg_replace('/\\s+/', ' ', $string);
         return str_replace(["\r", "\n"], '', $string);
+    }
+
+    /**
+     * Detect image extension from binary data by checking magic bytes.
+     * @param string $data First bytes of image data
+     * @return string|false Extension or false if not detected
+     */
+    private static function detectImageExtensionFromData($data)
+    {
+        if (strlen($data) < 4) {
+            return false;
+        }
+        
+        // Check for common image file signatures (magic bytes)
+        $bytes = unpack('C4', substr($data, 0, 4));
+        
+        // JPEG: FF D8 FF
+        if ($bytes[1] === 0xFF && $bytes[2] === 0xD8 && $bytes[3] === 0xFF) {
+            return 'jpg';
+        }
+        
+        // PNG: 89 50 4E 47
+        if ($bytes[1] === 0x89 && $bytes[2] === 0x50 && $bytes[3] === 0x4E && $bytes[4] === 0x47) {
+            return 'png';
+        }
+        
+        // GIF: 47 49 46 38 or 47 49 46 39
+        if ($bytes[1] === 0x47 && $bytes[2] === 0x49 && $bytes[3] === 0x46 && 
+            ($bytes[4] === 0x38 || $bytes[4] === 0x39)) {
+            return 'gif';
+        }
+        
+        // WebP: Check for "RIFF" and "WEBP" (need more bytes for this)
+        if (strlen($data) >= 12) {
+            $riff = substr($data, 0, 4);
+            $webp = substr($data, 8, 4);
+            if ($riff === 'RIFF' && $webp === 'WEBP') {
+                return 'webp';
+            }
+        }
+        
+        // BMP: 42 4D
+        if ($bytes[1] === 0x42 && $bytes[2] === 0x4D) {
+            return 'bmp';
+        }
+        
+        return false;
     }
 
     /**
