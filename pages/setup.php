@@ -31,7 +31,7 @@ $d2u_module_manager->showManagerList();
 <h2>Changelog</h2>
 <p>1.1.1-DEV:</p>
 <ul>
-	<li>...</li>
+	<li>Beispielcode für die Verwendung des HR4YOU Imports von Version 1 auf 3 angepasst.</li>
 </ul>
 <p>1.1.0:</p>
 <ul>

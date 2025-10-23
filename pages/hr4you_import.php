@@ -20,76 +20,72 @@ if ('' !== rex_config::get('jobs', 'hr4you_xml_url')) {
 	kann, nachfolgend die Vorlage für eine XML Datei, die dieses Plugin importieren
 	kann.</p>
 <textarea style="width: 100%" rows="20">
-<jobs>
-	<entry id="1">
-		<url_application_form>
-			<![CDATA[ URL zur Onlinebewerbung ]]>
-		</url_application_form>
-		<titel>
-			<![CDATA[ Titel ]]>
-		</titel>
-		<einleitung>
-			<![CDATA[ Einleitung (z.B. Eintrittstermin: ... ]]>
-		</einleitung>
-		<gesamt_html>
-			Stellenbeschreibung im HTML Format
-		</gesamt_html>
-		<gesamt>
-			Stellenbeschreibung im Textformat
-		</gesamt>
-		<block1_html>
-			<![CDATA[ Beschreibung der Aufgabenstellung ]]>
-		</block1_html>
-		<block2_html>
-			<![CDATA[ Beschreibung des Bewerberprofils ]]>
-		</block2_html>
-		<block3_html>
-			<![CDATA[ Beschreibung des Angebots ]]>
-		</block3_html>
-		<sprachcode><![CDATA[ de ]]></sprachcode>
-		<von_datum>2015-10-09</von_datum>
-		<bis_datum>2016-04-09</bis_datum>
-		<plzarbeitsort>
-			<![CDATA[ 11111 ]]>
-		</plzarbeitsort>
-		<arbeitsort>
-			<![CDATA[ Wunderstadt ]]>
-		</arbeitsort>
-		<kennziffer>
-			<![CDATA[ 8 ]]>
-		</kennziffer>
-		<firma>
-			<![CDATA[ Name meiner Firma ]]>
-		</firma>
-		<ap_vorname>
-			<![CDATA[ Vorname Kontaktperson ]]>
-		</ap_vorname>
-		<ap_nachname>
-			<![CDATA[ Nachname Kontaktperson ]]>
-		</ap_nachname>
-		<ap_telefon>
-			<![CDATA[ 0111/111-111 ]]>
-		</ap_telefon>
-		<ap_email>
-			<![CDATA[ hr@meinefirma.de ]]>
-		</ap_email>
-		<berufskategorie_id>25</berufskategorie_id>
-		<berufskategorie>
-			<![CDATA[ Auszubildende/Studenten ]]>
-		</berufskategorie>
-		<stellenart_id>2</stellenart_id>
-		<stellenart>
-			<![CDATA[ Ausbildungsplatz ]]>
-		</stellenart>
-		<jobid>8</jobid>
-		<stellenkategorie>1,2,4</stellenkategorie>
-		<referenznummer>13</referenznummer>
-		<kopfgrafik_name>Titel der Grafik</kopfgrafik_name>
-		<kopfgrafik_url>
-			http://meinefirma.hr4you.org/upload_files/upload_dateien/bild.jpg
-		</kopfgrafik_url>
-	</entry>
-</jobs>
+	<HR4YOU_JOBS>
+		<job>
+			<jobId>1</jobId>
+			<jobTitle>Initiativbewerbung (m/w/d)</jobTitle>
+			<jobCompanyProfile></jobCompanyProfile>
+			<jobSummary></jobSummary>
+			<jobResponsibilities>
+				Ergreifen Sie die Initiative!
+				&lt;br /&gt; Wir schätzen Mitarbeitende, die die Initiative ergreifen und schenken deshalb jeder Initiativbewerbung unsere volle Aufmerksamkeit.
+			</jobResponsibilities>
+			<jobRequirements>
+				Spaß am Umgang mit Menschen, Aufgeschlossenheit und Neugierde, Kreativität, Teamgeist und Engagement
+			</jobRequirements>
+			<jobBenefits>
+				Ein interessantes und vielfältiges Aufgabengebiet.
+			</jobBenefits>
+			<jobOutro></jobOutro>
+			<jobFulltext></jobFulltext>
+			<jobWorkplace>Meine Stadt</jobWorkplace>
+			<jobWorkplaceZipcode>11111</jobWorkplaceZipcode>
+			<jobLongitude>0.00000</jobLongitude>
+			<jobLatitude>0.00000</jobLatitude>
+			<jobRegion>Meine Region</jobRegion>
+			<jobIndustry/>
+			<jobCategory>Initiativbewerbung</jobCategory>
+			<jobEmploymentType>Vollzeit</jobEmploymentType>
+			<jobPublishingDateFrom>2019-01-01</jobPublishingDateFrom>
+			<jobPublishingDateUntil>2999-09-23</jobPublishingDateUntil>
+			<languageCode>DE</languageCode>
+			<jobStreet></jobStreet>
+			<salaryMin>0</salaryMin>
+			<jobEducationRequirements/>
+			<jobExperienceRequirements/>
+			<workHours>0</workHours>
+			<salaryCurrency/>
+			<salaryMax>0</salaryMax>
+			<contactCompany>Personal</contactCompany>
+			<contactGender>Geschlecht HR Mitarbeiter</contactGender>
+			<contactTitle></contactTitle>
+			<contactFirstname>Vorname HR Mitarbeiter</contactFirstname>
+			<contactLastname>Nachname HR Mitarbeiter</contactLastname>
+			<contactDepartment>Human Resources</contactDepartment>
+			<contactPhone>Telefonnummer HR Mitarbeiter</contactPhone>
+			<contactEmail>E-Mail-Adresse HR Mitarbeiter</contactEmail>
+			<contactWebsite>http://www.meinedomain.com</contactWebsite>
+			<contactLocation>Meine Stadt</contactLocation>
+			<contactZipcode>11111</contactZipcode>
+			<jobOffer>
+				https://mycompany.hr4you.org/job/view/1/...
+			</jobOffer>
+			<applicationForm>
+				https://mycompany.hr4you.org/applicationForm.php?sid=1&amp;page_lang=de
+			</applicationForm>
+			<additionCompany></additionCompany>
+			<contactStreet>Strasse und Hausnummer</contactStreet>
+			<countryCompany>Land</countryCompany>
+			<contactRole></contactRole>
+			<faxCompany></faxCompany>
+			<sprachcode>DE</sprachcode>
+			<JobPostingSchema></JobPostingSchema>
+			<contactPhoto/>
+			<jobHeaderImage>
+				https://mycompany.hr4you.org/system/file/Initiativbewerbung
+			</jobHeaderImage>
+		</job>
+	</HR4YOU_JOBS>
 </textarea>
 <h2>Automatischer Import</h2>
 <p>Um einen automatischen Import zu installieren muss im Addon Cronjobs ein neuer
