@@ -38,6 +38,7 @@ class LangHelper extends \TobiasKrais\D2UHelper\ALangHelper
         'jobs_questions' => '如果您对该职位有任何疑问，请联系我们：',
         'jobs_reference_number' => '参考号',
         'jobs_region' => '市',
+        'jobs_salary_max' => '最高工资',
         'jobs_vacancies' => '招聘岗位',
         'jobs_video_application' => '视频应用',
     ];
@@ -70,6 +71,7 @@ class LangHelper extends \TobiasKrais\D2UHelper\ALangHelper
         'jobs_questions' => 'Indien u naar aanleiding van deze vacature nog vragen heeft kunt u contact opnemen met:',
         'jobs_reference_number' => 'Referentie',
         'jobs_region' => 'Stad',
+        'jobs_salary_max' => 'Maximaal salaris',
         'jobs_vacancies' => 'Vacatures',
         'jobs_video_application' => 'Video-applicatie',
     ];
@@ -102,6 +104,7 @@ class LangHelper extends \TobiasKrais\D2UHelper\ALangHelper
         'jobs_questions' => 'If you have questions regarding this position, please contact:',
         'jobs_reference_number' => 'Reference number',
         'jobs_region' => 'City',
+        'jobs_salary_max' => 'Max salary',
         'jobs_vacancies' => 'Vacancies',
         'jobs_video_application' => 'Video application',
     ];
@@ -134,6 +137,7 @@ class LangHelper extends \TobiasKrais\D2UHelper\ALangHelper
         'jobs_questions' => 'Si vous avez des questions concernant ce poste, veuillez contacter:',
         'jobs_reference_number' => 'Numéro de réference',
         'jobs_region' => 'Ville',
+        'jobs_salary_max' => 'Salaire maximum',
         'jobs_vacancies' => "Offres d'emploi",
         'jobs_video_application' => 'Application vidéo',
     ];
@@ -166,6 +170,7 @@ class LangHelper extends \TobiasKrais\D2UHelper\ALangHelper
         'jobs_questions' => 'Wenn Sie Fragen zur ausgeschriebenen Stelle haben, wenden Sie sich bitte an:',
         'jobs_reference_number' => 'Referenznummer',
         'jobs_region' => 'Ort',
+        'jobs_salary_max' => 'Maximalgehalt',
         'jobs_vacancies' => 'Stellenangebote',
         'jobs_video_application' => 'Videobewerbung',
     ];
@@ -198,6 +203,7 @@ class LangHelper extends \TobiasKrais\D2UHelper\ALangHelper
         'jobs_questions' => 'Si tiene preguntas relativas a esto, por favor contáctenos',
         'jobs_reference_number' => 'Número de referencia',
         'jobs_region' => 'Ciudad',
+        'jobs_salary_max' => 'Salario maximo',
         'jobs_vacancies' => 'Vacantes',
         'jobs_video_application' => 'Applicación de video',
     ];
@@ -230,6 +236,7 @@ class LangHelper extends \TobiasKrais\D2UHelper\ALangHelper
         'jobs_questions' => 'Если у вас есть вопросы относительно этой вакансии, мы всегда к Вашим услугам:',
         'jobs_reference_number' => 'ссылка',
         'jobs_region' => 'город',
+        'jobs_salary_max' => 'Максимальная зарплата',
         'jobs_vacancies' => 'Вакансии',
         'jobs_video_application' => 'Видео приложение',
     ];

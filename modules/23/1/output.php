@@ -54,9 +54,6 @@ if (rex::isBackend()) {
     }
 } else {
     // FRONTEND Output
-    $sprog = rex_addon::get('sprog');
-    $tag_open = $sprog->getConfig('wildcard_open_tag');
-    $tag_close = $sprog->getConfig('wildcard_close_tag');
 
     // Output job details
     if (filter_input(INPUT_GET, 'job_id', FILTER_VALIDATE_INT, ['options' => ['default' => 0]]) > 0 || 'job_id' === $url_namespace) {
@@ -81,17 +78,17 @@ if (rex::isBackend()) {
         if ('' !== $job->city || '' !== $job->reference_number) {
             echo '<p><b>';
             if ('' !== $job->city) {
-                echo $tag_open .'jobs_region'. $tag_close .': '. $job->city . ('' !== $job->reference_number ? ' / ' : '');
+                echo \Sprog\Wildcard::get('jobs_region', $job->clang_id) .': '. $job->city . ('' !== $job->reference_number ? ' / ' : '');
             }
             if ('' !== $job->reference_number) {
-                echo $tag_open .'jobs_reference_number'. $tag_close .': '. $job->reference_number;
+                echo \Sprog\Wildcard::get('jobs_reference_number', $job->clang_id) .': '. $job->reference_number;
             }
             echo '</b></p>';
         }
         if ($job->salary_max > 0 || '' !== $job->salary_currency) {
-            $salary_value = trim($job->salary_currency . ' '. ($job->salary_max > 0 ? (string) $job->salary_max : ''));
+            $salary_value = trim( ($job->salary_max > 0 ? (string) $job->salary_max : '') .' '. $job->salary_currency);
             if ('' !== $salary_value) {
-                echo '<p><b>'. rex_i18n::msg('jobs_salary_max') .': '. $salary_value .'</b></p>';
+                echo '<p><b>'. \Sprog\Wildcard::get('jobs_salary_max', $job->clang_id) .': '. $salary_value .'</b></p>';
             }
         }
         echo '</div>';
@@ -185,13 +182,13 @@ if (rex::isBackend()) {
             }
             if ('' !== $job->hr4you_url_application_form) {
                 echo '<p><a target="_blank" href="'. $job->hr4you_url_application_form .'">'
-                    .'<button class="d2u_application_form_button">'. $tag_open .'jobs_application_link'. $tag_close .'<span class="jobs_arrow_right"></span></button></a></p>';
+                    .'<button class="d2u_application_form_button">'. \Sprog\Wildcard::get('jobs_application_link', $job->clang_id) .'<span class="jobs_arrow_right"></span></button></a></p>';
             } elseif ($show_application_form) { /** @phpstan-ignore-line */
                 echo '<p><a href="'. $job_application_link .'" title="'. \Sprog\Wildcard::get('jobs_application_link', $job->clang_id) .'">'
                     .'<button class="d2u_application_form_button">'. \Sprog\Wildcard::get('jobs_application_link', $job->clang_id)
                     .'<span class="jobs_arrow_right"></span></button></a></p>';
             } elseif (false === $hide_application_hint) {
-                echo '<p class="appendix">'. $tag_open .'jobs_footer'. $tag_close
+                echo '<p class="appendix">'. \Sprog\Wildcard::get('jobs_footer', $job->clang_id)
                     .'<br><br><a href="mailto:'. rex_config::get('jobs', 'email') .'" title="'. rex_config::get('jobs', 'email') .'">'. rex_config::get('jobs', 'email') .'</a>'
                     .'</p>';
             }
@@ -213,7 +210,7 @@ if (rex::isBackend()) {
             echo '<div class="col-12 col-sm-8">';
             echo '<h3 class="contact-heading">'. $job->contact->name .'</h3>';
             if ('' !== $job->contact->phone) {
-                echo $tag_open .'jobs_phone'. $tag_close .': '. $job->contact->phone .'<br>';
+                echo \Sprog\Wildcard::get('jobs_phone', $job->clang_id) .': '. $job->contact->phone .'<br>';
             }
             if ('' !== $job->contact->email) {
                 echo '<a href="mailto:'. $job->contact->email .'" title="'. rex_config::get('jobs', 'email') .'">'.$job->contact->email .'</a>';
@@ -223,13 +220,13 @@ if (rex::isBackend()) {
             if ('' !== $job->contact->phone_video) {
                 echo '<div class="col-12">';
                 echo '<a target="_blank" href="https://api.whatsapp.com/send?phone='. preg_replace('/[^0-9]/', '', $job->contact->phone_video) .'">'
-                    .'<button class="d2u_application_form_button"><span class="jobs_video"></span>'. $tag_open .'jobs_video_application'. $tag_close .'<span class="jobs_arrow_right"></span></button></a>';
+                    .'<button class="d2u_application_form_button"><span class="jobs_video"></span>'. \Sprog\Wildcard::get('jobs_video_application', $job->clang_id) .'<span class="jobs_arrow_right"></span></button></a>';
                 echo '</div>';
             }
             if ('' !== $job->hr4you_url_application_form) {
                 echo '<div class="col-12">';
                 echo '<a target="_blank" href="'. $job->hr4you_url_application_form .'">'
-                    .'<button class="d2u_application_form_button">'. $tag_open .'jobs_application_link'. $tag_close .'<span class="jobs_arrow_right"></span></button></a>';
+                    .'<button class="d2u_application_form_button">'. \Sprog\Wildcard::get('jobs_application_link', $job->clang_id) .'<span class="jobs_arrow_right"></span></button></a>';
                 echo '</div>';
             } elseif ($show_application_form) { /** @phpstan-ignore-line */
                 echo '<div class="col-12">';
@@ -274,7 +271,7 @@ if (rex::isBackend()) {
         echo '<div class="row" data-match-height>';
         if (count($jobs) > 0) {
             echo '<div class="col-12">';
-            echo '<h1>'. $tag_open .'jobs_vacancies'. $tag_close .' ';
+            echo '<h1>'. \Sprog\Wildcard::get('jobs_vacancies', rex_clang::getCurrentId()) .' ';
             if (false !== $category) {
                 echo $category->name;
             }
@@ -325,10 +322,10 @@ if (rex::isBackend()) {
                 if ('' !== $job->city || '' !== $job->reference_number) {
                     echo '<p>';
                     if ('' !== $job->city) {
-                        echo $tag_open .'jobs_region'. $tag_close .': '. $job->city . ('' !== $job->reference_number ? ' / ' : '');
+                        echo \Sprog\Wildcard::get('jobs_region', rex_clang::getCurrentId()) .': '. $job->city . ('' !== $job->reference_number ? ' / ' : '');
                     }
                     if ('' !== $job->reference_number) {
-                        echo $tag_open .'jobs_reference_number'. $tag_close .': '. $job->reference_number;
+                        echo \Sprog\Wildcard::get('jobs_reference_number', rex_clang::getCurrentId()) .': '. $job->reference_number;
                     }
                     echo '</p>';
                 }
@@ -338,7 +335,7 @@ if (rex::isBackend()) {
             }
         }
         echo '<div id="jobs_no_vacancies" class="col-12">';
-        echo '<p>'. $tag_open .'jobs_no_jobs_found'. $tag_close .'</p>';
+        echo '<p>'. \Sprog\Wildcard::get('jobs_no_jobs_found', rex_clang::getCurrentId()) .'</p>';
         echo '</div>';
 
         echo '</div>';

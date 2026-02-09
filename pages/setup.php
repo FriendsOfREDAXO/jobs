@@ -32,7 +32,7 @@ $d2u_module_manager->showManagerList();
 <p>1.1.1-DEV:</p>
 <ul>
 	<li>Beispielcode für die Verwendung des HR4YOU Imports von Version 1 auf 3 angepasst.</li>
-	<li>Maximalgehalt und Gehaltswährung wurden hinzugefügt.</li>
+	<li>Maximalgehalt und Gehaltswährung wurden hinzugefügt und Modul 23-1 aktualisiert.</li>
 </ul>
 <p>1.1.0:</p>
 <ul>
