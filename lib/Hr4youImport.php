@@ -219,6 +219,8 @@ class Hr4youImport
             $job->date = $xml_job->jobPublishingDateFrom->__toString();
             $job->hr4you_lead_in = $xml_job->jobSummary->__toString();
             $job->hr4you_url_application_form = $xml_job->applicationForm->__toString();
+            $job->salary_currency = $xml_job->salaryCurrency->__toString();
+            $job->salary_max = (int) $xml_job->salaryMax->__toString();
             $job->internal_name = $xml_job->jobTitle->__toString();
             $job->name = $xml_job->jobTitle->__toString();
             $job->offer_heading = html_entity_decode('' !== self::getHeadline($xml_job->jobBenefits) ? self::getHeadline($xml_job->jobBenefits) : \Sprog\Wildcard::get('jobs_hr4you_offer_heading', (int) \rex_config::get('jobs', 'hr4you_default_lang')));

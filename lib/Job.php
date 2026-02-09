@@ -76,6 +76,12 @@ class Job implements \TobiasKrais\D2UHelper\ITranslationHelper
     /** @var string HR4YOU application form URL */
     public string $hr4you_url_application_form = '';
 
+    /** @var string Salary currency */
+    public string $salary_currency = '';
+
+    /** @var int Salary max */
+    public int $salary_max = 0;
+
     /** @var string prolog text */
     public string $prolog = '';
 
@@ -151,6 +157,8 @@ class Job implements \TobiasKrais\D2UHelper\ITranslationHelper
                 $this->hr4you_job_id = $result->getValue('hr4you_job_id') > 0 ? (int) $result->getValue('hr4you_job_id') : 0;
                 $this->hr4you_lead_in = (string) $result->getValue('hr4you_lead_in');
                 $this->hr4you_url_application_form = (string) $result->getValue('hr4you_url_application_form');
+                $this->salary_currency = (string) $result->getValue('salary_currency');
+                $this->salary_max = (int) $result->getValue('salary_max');
             }
         }
     }
@@ -592,7 +600,9 @@ class Job implements \TobiasKrais\D2UHelper\ITranslationHelper
                     ."online_status = '". $this->online_status ."', "
                     ."type = '". $this->type ."', "
                     .'hr4you_job_id = '. $this->hr4you_job_id .', '
-                    ."hr4you_url_application_form = '". $this->hr4you_url_application_form ."'";
+                    ."hr4you_url_application_form = '". $this->hr4you_url_application_form ."', "
+                    ."salary_currency = '". addslashes($this->salary_currency) ."', "
+                    .'salary_max = '. $this->salary_max;
 
             if (0 === $this->job_id) {
                 $query = 'INSERT INTO '. $query;

@@ -49,6 +49,8 @@ if (1 === (int) filter_input(INPUT_POST, 'btn_save') || 1 === (int) filter_input
             $job->contact = new Contact($form['contact_id']);
             $job->hr4you_lead_in = (string) $form['hr4you_lead_in'];
             $job->hr4you_url_application_form = (string) $form['hr4you_url_application_form'];
+            $job->salary_currency = (string) $form['salary_currency'];
+            $job->salary_max = (int) $form['salary_max'];
         } else {
             $job->clang_id = $rex_clang->getId();
         }
@@ -181,6 +183,8 @@ if ('edit' === $func || 'clone' === $func || 'add' === $func) {
                                 'VOLUNTEER' => rex_i18n::msg('jobs_type_VOLUNTEER'),
                                 'OTHER' => rex_i18n::msg('jobs_type_OTHER')];
                             \TobiasKrais\D2UHelper\BackendHelper::form_select('jobs_type', 'form[type]', $options_type, [$job->type], 1, false, $readonly);
+                            \TobiasKrais\D2UHelper\BackendHelper::form_input('jobs_salary_currency', 'form[salary_currency]', $job->salary_currency, false, $readonly);
+                            \TobiasKrais\D2UHelper\BackendHelper::form_input('jobs_salary_max', 'form[salary_max]', (string) $job->salary_max, false, $readonly, 'number');
                             $options_contacts = [];
                             foreach (Contact::getAll() as $contact) {
                                 if ('' !== $contact->name) {

@@ -88,6 +88,12 @@ if (rex::isBackend()) {
             }
             echo '</b></p>';
         }
+        if ($job->salary_max > 0 || '' !== $job->salary_currency) {
+            $salary_value = trim($job->salary_currency . ' '. ($job->salary_max > 0 ? (string) $job->salary_max : ''));
+            if ('' !== $salary_value) {
+                echo '<p><b>'. rex_i18n::msg('jobs_salary_max') .': '. $salary_value .'</b></p>';
+            }
+        }
         echo '</div>';
 
         $application_form = rex_request('apply', 'int', 0) > 0 ? true : false;

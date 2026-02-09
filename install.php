@@ -18,6 +18,8 @@
     ->ensureColumn(new \rex_sql_column('priority', 'INT(11)', true, '0'))
     ->ensureColumn(new \rex_sql_column('hr4you_job_id', 'INT(10)'))
     ->ensureColumn(new \rex_sql_column('hr4you_url_application_form', 'VARCHAR(191)'))
+    ->ensureColumn(new \rex_sql_column('salary_currency', 'VARCHAR(10)', true))
+    ->ensureColumn(new \rex_sql_column('salary_max', 'INT(11)', true, '0'))
     ->ensure();
 \rex_sql_table::get(\rex::getTable('jobs_jobs_lang'))
     ->ensureColumn(new rex_sql_column('job_id', 'INT(11) unsigned', false, null, 'auto_increment'))
