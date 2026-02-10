@@ -19,7 +19,10 @@
     ->ensureColumn(new \rex_sql_column('hr4you_job_id', 'INT(10)'))
     ->ensureColumn(new \rex_sql_column('hr4you_url_application_form', 'VARCHAR(191)'))
     ->ensureColumn(new \rex_sql_column('salary_currency', 'VARCHAR(10)', true))
+    ->ensureColumn(new \rex_sql_column('salary_min', 'INT(11)', true, '0'))
     ->ensureColumn(new \rex_sql_column('salary_max', 'INT(11)', true, '0'))
+    ->ensureColumn(new \rex_sql_column('salary_unit_text', 'VARCHAR(20)', true))
+    ->ensureColumn(new \rex_sql_column('work_hours', 'INT(11)', true, '0'))
     ->ensure();
 \rex_sql_table::get(\rex::getTable('jobs_jobs_lang'))
     ->ensureColumn(new rex_sql_column('job_id', 'INT(11) unsigned', false, null, 'auto_increment'))
@@ -142,7 +145,7 @@ if (0 === $sql->getRows()) {
 }
 
 // Standard settings
-if (!rex_config::has('article_id')) { /** @phpstan-ignore-line */
+if (!rex_config::has('jobs','article_id')) { /** @phpstan-ignore-line */
     rex_config::set('jobs', 'article_id', rex_article::getSiteStartArticleId()); /** @phpstan-ignore-line */
 }
 if (!rex_config::has('jobs', 'hr4you_default_lang')) {

@@ -50,3 +50,4 @@
 - Translation handling uses `translation_needs_update` in `jobs_jobs_lang`.
 - URL handling integrates with URL addon when available.
 - Frontend labels should use `Sprog\Wildcard::get()` backed by `LangHelper`, not `rex_i18n::msg()`.
+- When adding new database fields that should be exposed to Google Jobs, update `Job::getJsonLdCode()` accordingly.

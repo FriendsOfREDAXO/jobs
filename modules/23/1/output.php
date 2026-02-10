@@ -85,11 +85,48 @@ if (rex::isBackend()) {
             }
             echo '</b></p>';
         }
-        if ($job->salary_max > 0 || '' !== $job->salary_currency) {
-            $salary_value = trim( ($job->salary_max > 0 ? (string) $job->salary_max : '') .' '. $job->salary_currency);
-            if ('' !== $salary_value) {
-                echo '<p><b>'. \Sprog\Wildcard::get('jobs_salary_max', $job->clang_id) .': '. $salary_value .'</b></p>';
+        if ($job->salary_min > 0 || $job->salary_max > 0 || '' !== $job->salary_currency || '' !== $job->salary_unit_text) {
+            $clang_code = rex_clang::get($job->clang_id)?->getCode() ?? '';
+            $number_decimal = str_starts_with($clang_code, 'en') ? '.' : ',';
+            $number_thousands = str_starts_with($clang_code, 'en') ? ',' : '.';
+
+            $salary_range = '';
+            if ($job->salary_min > 0 && $job->salary_max > 0) {
+                $salary_range = number_format($job->salary_min, 0, $number_decimal, $number_thousands)
+                    .' - '. number_format($job->salary_max, 0, $number_decimal, $number_thousands);
+            } elseif ($job->salary_min > 0) {
+                $salary_range = number_format($job->salary_min, 0, $number_decimal, $number_thousands);
+            } elseif ($job->salary_max > 0) {
+                $salary_range = number_format($job->salary_max, 0, $number_decimal, $number_thousands);
             }
+
+            $currency_label = $job->salary_currency;
+            if ('EUR' === strtoupper($currency_label)) {
+                $currency_label = 'Euro';
+            }
+
+            $salary_value = trim($salary_range . ('' !== $currency_label ? ' '. $currency_label : ''));
+
+            $unit_label = '';
+            if ('' !== $job->salary_unit_text) {
+                $unit_key = 'jobs_salary_unit_'. strtoupper($job->salary_unit_text);
+                $unit_label = \Sprog\Wildcard::get($unit_key, $job->clang_id);
+                if ($unit_label === $unit_key) {
+                    $unit_label = $job->salary_unit_text;
+                }
+                $unit_label = trim($unit_label);
+            }
+
+            if ('' !== $salary_value) {
+                $salary_label = \Sprog\Wildcard::get('jobs_salary', $job->clang_id);
+                if ('' !== $unit_label) {
+                    $salary_label .= ' ('. $unit_label .')';
+                }
+                echo '<p><b>'. $salary_label .': '. $salary_value .'</b></p>';
+            }
+        }
+        if ($job->work_hours > 0) {
+            echo '<p><b>'. \Sprog\Wildcard::get('jobs_work_hours', $job->clang_id) .': '. $job->work_hours .' h</b></p>';
         }
         echo '</div>';
 

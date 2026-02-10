@@ -220,7 +220,10 @@ class Hr4youImport
             $job->hr4you_lead_in = $xml_job->jobSummary->__toString();
             $job->hr4you_url_application_form = $xml_job->applicationForm->__toString();
             $job->salary_currency = $xml_job->salaryCurrency->__toString();
+            $job->salary_min = (int) $xml_job->salaryMin->__toString();
             $job->salary_max = (int) $xml_job->salaryMax->__toString();
+            $job->salary_unit_text = self::getSalaryUnitText($xml_job);
+            $job->work_hours = (int) $xml_job->workHours->__toString();
             $job->internal_name = $xml_job->jobTitle->__toString();
             $job->name = $xml_job->jobTitle->__toString();
             $job->offer_heading = html_entity_decode('' !== self::getHeadline($xml_job->jobBenefits) ? self::getHeadline($xml_job->jobBenefits) : \Sprog\Wildcard::get('jobs_hr4you_offer_heading', (int) \rex_config::get('jobs', 'hr4you_default_lang')));
@@ -330,6 +333,37 @@ class Hr4youImport
         $string = str_replace(['&nbsp;', '&crarr;'], ' ', $string);
         $string = (string) preg_replace('/\\s+/', ' ', $string);
         return str_replace(["\r", "\n"], '', $string);
+    }
+
+    /**
+     * Reads salary unit text (e.g. YEAR, HOUR) from JobPostingSchema JSON.
+     * @param SimpleXMLElement $xml_job XML job node
+     * @return string Salary unit text or empty string
+     */
+    private static function getSalaryUnitText(SimpleXMLElement $xml_job): string
+    {
+        $schema_raw = $xml_job->JobPostingSchema->__toString();
+        if ('' === $schema_raw) {
+            return '';
+        }
+
+        $schema_raw = html_entity_decode($schema_raw, ENT_QUOTES | ENT_HTML5);
+        if (preg_match('/<script[^>]*>(.*)<\/script>/s', $schema_raw, $matches)) {
+            $schema_raw = $matches[1];
+        }
+
+        $schema_raw = trim($schema_raw);
+        if ('' === $schema_raw) {
+            return '';
+        }
+
+        $data = json_decode($schema_raw, true);
+        if (!is_array($data)) {
+            return '';
+        }
+
+        $unit_text = $data['baseSalary']['value']['unitText'] ?? '';
+        return is_string($unit_text) ? $unit_text : '';
     }
 
     /**

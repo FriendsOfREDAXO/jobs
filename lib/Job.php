@@ -79,8 +79,17 @@ class Job implements \TobiasKrais\D2UHelper\ITranslationHelper
     /** @var string Salary currency */
     public string $salary_currency = '';
 
+    /** @var int Salary min */
+    public int $salary_min = 0;
+
     /** @var int Salary max */
     public int $salary_max = 0;
+
+    /** @var string Salary unit text (e.g. YEAR, HOUR) */
+    public string $salary_unit_text = '';
+
+    /** @var int Work hours */
+    public int $work_hours = 0;
 
     /** @var string prolog text */
     public string $prolog = '';
@@ -158,7 +167,10 @@ class Job implements \TobiasKrais\D2UHelper\ITranslationHelper
                 $this->hr4you_lead_in = (string) $result->getValue('hr4you_lead_in');
                 $this->hr4you_url_application_form = (string) $result->getValue('hr4you_url_application_form');
                 $this->salary_currency = (string) $result->getValue('salary_currency');
+                $this->salary_min = (int) $result->getValue('salary_min');
                 $this->salary_max = (int) $result->getValue('salary_max');
+                $this->salary_unit_text = (string) $result->getValue('salary_unit_text');
+                $this->work_hours = (int) $result->getValue('work_hours');
             }
         }
     }
@@ -434,6 +446,41 @@ class Job implements \TobiasKrais\D2UHelper\ITranslationHelper
      */
     public function getJsonLdCode()
     {
+        $base_salary_json = '';
+        $salary_value = [
+            '@type' => 'QuantitativeValue',
+        ];
+        if ('' !== $this->salary_unit_text) {
+            $salary_value['unitText'] = $this->salary_unit_text;
+        }
+        if ($this->salary_min > 0) {
+            $salary_value['minValue'] = $this->salary_min;
+        }
+        if ($this->salary_max > 0) {
+            $salary_value['maxValue'] = $this->salary_max;
+        }
+
+        $base_salary = [
+            '@type' => 'MonetaryAmount',
+        ];
+        if ('' !== $this->salary_currency) {
+            $base_salary['currency'] = $this->salary_currency;
+        }
+        if (count($salary_value) > 1) {
+            $base_salary['value'] = $salary_value;
+        }
+        if (count($base_salary) > 1) {
+            $base_salary_json = json_encode($base_salary, JSON_UNESCAPED_UNICODE);
+        }
+
+        $extra_json = '';
+        if ($this->work_hours > 0) {
+            $extra_json .= ','. PHP_EOL . '"workHours" : "'. $this->work_hours .' hours per week"';
+        }
+        if ('' !== $base_salary_json) {
+            $extra_json .= ','. PHP_EOL . '"baseSalary" : '. $base_salary_json;
+        }
+
         $json_job = '<script type="application/ld+json">'. PHP_EOL
             .'{'.PHP_EOL
                 .'"@context" : "https://schema.org/",'. PHP_EOL
@@ -459,6 +506,7 @@ class Job implements \TobiasKrais\D2UHelper\ITranslationHelper
                         .('' !== $this->country_code ? ', "addressCountry": "'. $this->country_code .'"'. PHP_EOL : '')
                     .'}'. PHP_EOL
                 .'}'. PHP_EOL
+                . $extra_json . PHP_EOL
             .'}'. PHP_EOL
         .'</script>';
         return $json_job;
@@ -602,7 +650,10 @@ class Job implements \TobiasKrais\D2UHelper\ITranslationHelper
                     .'hr4you_job_id = '. $this->hr4you_job_id .', '
                     ."hr4you_url_application_form = '". $this->hr4you_url_application_form ."', "
                     ."salary_currency = '". addslashes($this->salary_currency) ."', "
-                    .'salary_max = '. $this->salary_max;
+                    .'salary_min = '. $this->salary_min .', '
+                    .'salary_max = '. $this->salary_max .', '
+                    ."salary_unit_text = '". addslashes($this->salary_unit_text) ."', "
+                    .'work_hours = '. $this->work_hours;
 
             if (0 === $this->job_id) {
                 $query = 'INSERT INTO '. $query;

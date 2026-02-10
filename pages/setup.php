@@ -29,10 +29,13 @@ $d2u_module_manager->showManagerList();
 <p>Fehlermeldungen bitte im Git Projekt unter
 	<a href="https://github.com/FriendsOfREDAXO/jobs/issues" target="_blank">https://github.com/FriendsOfREDAXO/jobs/issues</a> melden.</p>
 <h2>Changelog</h2>
-<p>1.1.1-DEV:</p>
+<p>1.2.0:</p>
 <ul>
 	<li>Beispielcode für die Verwendung des HR4YOU Imports von Version 1 auf 3 angepasst.</li>
-	<li>Maximalgehalt und Gehaltswährung wurden hinzugefügt und Modul 23-1 aktualisiert.</li>
+	<li>Gehaltsfelder (Min/Max/Währung/Zeitraum) und Wochenarbeitszeit wegen Entgelttransparenzgesetz ergänzt.</li>
+	<li>JSON-LD Ausgabe um baseSalary und workHours erweitert.</li>
+	<li>Modul 23-1 aktualisiert (Gehalt, Wildcards, Formatierung).</li>
+	<li>Bugfix: beim reinstallieren des Addons wurde der Redaxo Artikel in den Einstellungen zurückgesetzt.</li>
 </ul>
 <p>1.1.0:</p>
 <ul>

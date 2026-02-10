@@ -50,7 +50,10 @@ if (1 === (int) filter_input(INPUT_POST, 'btn_save') || 1 === (int) filter_input
             $job->hr4you_lead_in = (string) $form['hr4you_lead_in'];
             $job->hr4you_url_application_form = (string) $form['hr4you_url_application_form'];
             $job->salary_currency = (string) $form['salary_currency'];
+            $job->salary_min = (int) $form['salary_min'];
             $job->salary_max = (int) $form['salary_max'];
+            $job->salary_unit_text = (string) $form['salary_unit_text'];
+            $job->work_hours = (int) $form['work_hours'];
         } else {
             $job->clang_id = $rex_clang->getId();
         }
@@ -184,7 +187,15 @@ if ('edit' === $func || 'clone' === $func || 'add' === $func) {
                                 'OTHER' => rex_i18n::msg('jobs_type_OTHER')];
                             \TobiasKrais\D2UHelper\BackendHelper::form_select('jobs_type', 'form[type]', $options_type, [$job->type], 1, false, $readonly);
                             \TobiasKrais\D2UHelper\BackendHelper::form_input('jobs_salary_currency', 'form[salary_currency]', $job->salary_currency, false, $readonly);
+                            \TobiasKrais\D2UHelper\BackendHelper::form_input('jobs_salary_min', 'form[salary_min]', (string) $job->salary_min, false, $readonly, 'number');
                             \TobiasKrais\D2UHelper\BackendHelper::form_input('jobs_salary_max', 'form[salary_max]', (string) $job->salary_max, false, $readonly, 'number');
+                            $options_salary_unit_text = [
+                                'YEAR' => rex_i18n::msg('jobs_salary_unit_YEAR'),
+                                'MONTH' => rex_i18n::msg('jobs_salary_unit_MONTH'),
+                                'HOUR' => rex_i18n::msg('jobs_salary_unit_HOUR'),
+                            ];
+                            \TobiasKrais\D2UHelper\BackendHelper::form_select('jobs_salary_unit_text', 'form[salary_unit_text]', $options_salary_unit_text, [$job->salary_unit_text], 1, false, $readonly);
+                            \TobiasKrais\D2UHelper\BackendHelper::form_input('jobs_work_hours', 'form[work_hours]', (string) $job->work_hours, false, $readonly, 'number');
                             $options_contacts = [];
                             foreach (Contact::getAll() as $contact) {
                                 if ('' !== $contact->name) {
