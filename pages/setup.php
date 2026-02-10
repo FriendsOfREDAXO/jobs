@@ -29,6 +29,10 @@ $d2u_module_manager->showManagerList();
 <p>Fehlermeldungen bitte im Git Projekt unter
 	<a href="https://github.com/FriendsOfREDAXO/jobs/issues" target="_blank">https://github.com/FriendsOfREDAXO/jobs/issues</a> melden.</p>
 <h2>Changelog</h2>
+<p>1.2.1-DEV:</p>
+<ul>
+	<li>...</li>
+</ul>
 <p>1.2.0:</p>
 <ul>
 	<li>Beispielcode für die Verwendung des HR4YOU Imports von Version 1 auf 3 angepasst.</li>
