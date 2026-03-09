@@ -13,6 +13,10 @@
 - `jobs_categories` and `jobs_categories_lang`: job categories
 - `jobs_contacts`: contact persons
 
+## AGENTS.md Maintenance
+
+- When new project insights are gained during work and they are relevant to agent guidance, workflows, conventions, architecture, or known pitfalls, update this AGENTS.md accordingly.
+
 ## Key Classes
 
 - `FriendsOfRedaxo\Jobs\Job`: main model, handles save and URL generation.
