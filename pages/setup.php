@@ -1,4 +1,7 @@
 <?php
+$showChangelogOnly = defined('JOBS_SHOW_CHANGELOG');
+
+if (!$showChangelogOnly) {
 /*
  * Modules
  */
@@ -28,6 +31,9 @@ $d2u_module_manager->showManagerList();
 <h2>Support</h2>
 <p>Fehlermeldungen bitte im Git Projekt unter
 	<a href="https://github.com/FriendsOfREDAXO/jobs/issues" target="_blank">https://github.com/FriendsOfREDAXO/jobs/issues</a> melden.</p>
+<?php } ?>
+
+<?php if ($showChangelogOnly) { ?>
 <h2>Changelog</h2>
 <p>1.2.1-DEV:</p>
 <ul>
@@ -60,3 +66,4 @@ $d2u_module_manager->showManagerList();
 <ul>
 	<li>Initiale Version.</li>
 </ul>
+<?php } ?>

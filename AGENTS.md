@@ -55,3 +55,11 @@
 - URL handling integrates with URL addon when available.
 - Frontend labels should use `Sprog\Wildcard::get()` backed by `LangHelper`, not `rex_i18n::msg()`.
 - When adding new database fields that should be exposed to Google Jobs, update `Job::getJsonLdCode()` accordingly.
+
+## Versioning
+
+This addon follows [Semantic Versioning](https://semver.org/):
+
+- **Major** (1st digit): Breaking changes (e.g. removed classes, renamed methods, incompatible DB changes)
+- **Minor** (2nd digit): New features, new modules, new database fields (backward compatible)
+- **Patch** (3rd digit): Bug fixes, small improvements (backward compatible)
