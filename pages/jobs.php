@@ -3,6 +3,7 @@
 use FriendsOfRedaxo\Jobs\Category;
 use FriendsOfRedaxo\Jobs\Contact;
 use FriendsOfRedaxo\Jobs\Job;
+use TobiasKrais\D2UHelper\BackendHelper;
 
 $func = rex_request('func', 'string');
 $entry_id = rex_request('entry_id', 'int');
@@ -153,16 +154,16 @@ if ('edit' === $func || 'clone' === $func || 'add' === $func) {
                                 $readonly = false;
                             }
 
-                            \TobiasKrais\D2UHelper\BackendHelper::form_input('jobs_internal_name', 'form[internal_name]', $job->internal_name, true, $readonly);
-                            \TobiasKrais\D2UHelper\BackendHelper::form_input('jobs_reference_number', 'form[reference_number]', $job->reference_number, false, $readonly, 'text');
+                            BackendHelper::form_input('jobs_internal_name', 'form[internal_name]', $job->internal_name, true, $readonly);
+                            BackendHelper::form_input('jobs_reference_number', 'form[reference_number]', $job->reference_number, false, $readonly, 'text');
                             $options_categories = [];
                             foreach (Category::getAll((int) rex_config::get('d2u_helper', 'default_lang', rex_clang::getStartId()), false) as $category) {
                                 $options_categories[$category->category_id] = $category->name;
                             }
-                            \TobiasKrais\D2UHelper\BackendHelper::form_select('d2u_helper_category', 'form[category_ids][]', $options_categories, count($job->categories) > 0 ? array_keys($job->categories) : [], 5, true, $readonly);
-                            \TobiasKrais\D2UHelper\BackendHelper::form_input('jobs_date', 'form[date]', $job->date, true, $readonly, 'date');
-                            \TobiasKrais\D2UHelper\BackendHelper::form_input('jobs_zip_code', 'form[zip_code]', $job->zip_code, true, $readonly);
-                            \TobiasKrais\D2UHelper\BackendHelper::form_input('jobs_city', 'form[city]', $job->city, true, $readonly);
+                            BackendHelper::form_select('d2u_helper_category', 'form[category_ids][]', $options_categories, count($job->categories) > 0 ? array_keys($job->categories) : [], 5, true, $readonly);
+                            BackendHelper::form_input('jobs_date', 'form[date]', $job->date, true, $readonly, 'date');
+                            BackendHelper::form_input('jobs_zip_code', 'form[zip_code]', $job->zip_code, true, $readonly);
+                            BackendHelper::form_input('jobs_city', 'form[city]', $job->city, true, $readonly);
                             $options_country_code = [
                                 'AT' => 'AT',
                                 'CH' => 'CH',
@@ -176,33 +177,33 @@ if ('edit' === $func || 'clone' === $func || 'add' === $func) {
                                 'PL' => 'PL',
                                 'US' => 'US',
                             ];
-                            \TobiasKrais\D2UHelper\BackendHelper::form_select('jobs_country_code', 'form[country_code]', $options_country_code, [$job->country_code], 1, false, $readonly);
-                            \TobiasKrais\D2UHelper\BackendHelper::form_checkbox('d2u_helper_online_status', 'form[online_status]', 'online', 'online' === $job->online_status, $readonly);
-                            \TobiasKrais\D2UHelper\BackendHelper::form_mediafield('d2u_helper_picture', '1', $job->picture, $readonly);
+                            BackendHelper::form_select('jobs_country_code', 'form[country_code]', $options_country_code, [$job->country_code], 1, false, $readonly);
+                            BackendHelper::form_checkbox('d2u_helper_online_status', 'form[online_status]', 'online', 'online' === $job->online_status, $readonly);
+                            BackendHelper::form_mediafield('d2u_helper_picture', '1', $job->picture, $readonly);
                             $options_type = ['FULL_TIME' => rex_i18n::msg('jobs_type_FULL_TIME'),
                                 'PART_TIME' => rex_i18n::msg('jobs_type_PART_TIME'),
                                 'CONTRACTOR' => rex_i18n::msg('jobs_type_CONTRACTOR'),
                                 'TEMPORARY' => rex_i18n::msg('jobs_type_TEMPORARY'),
                                 'VOLUNTEER' => rex_i18n::msg('jobs_type_VOLUNTEER'),
                                 'OTHER' => rex_i18n::msg('jobs_type_OTHER')];
-                            \TobiasKrais\D2UHelper\BackendHelper::form_select('jobs_type', 'form[type]', $options_type, [$job->type], 1, false, $readonly);
-                            \TobiasKrais\D2UHelper\BackendHelper::form_input('jobs_salary_currency', 'form[salary_currency]', $job->salary_currency, false, $readonly);
-                            \TobiasKrais\D2UHelper\BackendHelper::form_input('jobs_salary_min', 'form[salary_min]', (string) $job->salary_min, false, $readonly, 'number');
-                            \TobiasKrais\D2UHelper\BackendHelper::form_input('jobs_salary_max', 'form[salary_max]', (string) $job->salary_max, false, $readonly, 'number');
+                            BackendHelper::form_select('jobs_type', 'form[type]', $options_type, [$job->type], 1, false, $readonly);
+                            BackendHelper::form_input('jobs_salary_currency', 'form[salary_currency]', $job->salary_currency, false, $readonly);
+                            BackendHelper::form_input('jobs_salary_min', 'form[salary_min]', (string) $job->salary_min, false, $readonly, 'number');
+                            BackendHelper::form_input('jobs_salary_max', 'form[salary_max]', (string) $job->salary_max, false, $readonly, 'number');
                             $options_salary_unit_text = [
                                 'YEAR' => rex_i18n::msg('jobs_salary_unit_YEAR'),
                                 'MONTH' => rex_i18n::msg('jobs_salary_unit_MONTH'),
                                 'HOUR' => rex_i18n::msg('jobs_salary_unit_HOUR'),
                             ];
-                            \TobiasKrais\D2UHelper\BackendHelper::form_select('jobs_salary_unit_text', 'form[salary_unit_text]', $options_salary_unit_text, [$job->salary_unit_text], 1, false, $readonly);
-                            \TobiasKrais\D2UHelper\BackendHelper::form_input('jobs_work_hours', 'form[work_hours]', (string) $job->work_hours, false, $readonly, 'number');
+                            BackendHelper::form_select('jobs_salary_unit_text', 'form[salary_unit_text]', $options_salary_unit_text, [$job->salary_unit_text], 1, false, $readonly);
+                            BackendHelper::form_input('jobs_work_hours', 'form[work_hours]', (string) $job->work_hours, false, $readonly, 'number');
                             $options_contacts = [];
                             foreach (Contact::getAll() as $contact) {
                                 if ('' !== $contact->name) {
                                     $options_contacts[$contact->contact_id] = $contact->name;
                                 }
                             }
-                            \TobiasKrais\D2UHelper\BackendHelper::form_select('jobs_contact', 'form[contact_id]', $options_contacts, $job->contact instanceof Contact ? [$job->contact->contact_id] : [], 1, false, $readonly);
+                            BackendHelper::form_select('jobs_contact', 'form[contact_id]', $options_contacts, $job->contact instanceof Contact ? [$job->contact->contact_id] : [], 1, false, $readonly);
                         ?>
 					</div>
 				</fieldset>
@@ -210,9 +211,9 @@ if ('edit' === $func || 'clone' === $func || 'add' === $func) {
                     <legend><small><i class="rex-icon fa-cloud-download"></i></small> <?= rex_i18n::msg('jobs_hr4you') ?></legend>
                     <div class="panel-body-wrapper slide">
                         <?php
-                            \TobiasKrais\D2UHelper\BackendHelper::form_input('jobs_hr4you_import_job_id', 'form[hr4you_job_id]', $job->hr4you_job_id, false, true, 'number');
-                            \TobiasKrais\D2UHelper\BackendHelper::form_input('jobs_hr4you_import_lead_in', 'form[hr4you_lead_in]', $job->hr4you_lead_in, false, $readonly);
-                            \TobiasKrais\D2UHelper\BackendHelper::form_input('jobs_hr4you_url_application_form', 'form[hr4you_url_application_form]', $job->hr4you_url_application_form, false, $readonly);
+                            BackendHelper::form_input('jobs_hr4you_import_job_id', 'form[hr4you_job_id]', $job->hr4you_job_id, false, true, 'number');
+                            BackendHelper::form_input('jobs_hr4you_import_lead_in', 'form[hr4you_lead_in]', $job->hr4you_lead_in, false, $readonly);
+                            BackendHelper::form_input('jobs_hr4you_url_application_form', 'form[hr4you_url_application_form]', $job->hr4you_url_application_form, false, $readonly);
                         ?>
                     </div>
                 </fieldset>
@@ -234,7 +235,7 @@ if ('edit' === $func || 'clone' === $func || 'add' === $func) {
                                 $options_translations['yes'] = rex_i18n::msg('d2u_helper_translation_needs_update');
                                 $options_translations['no'] = rex_i18n::msg('d2u_helper_translation_is_uptodate');
                                 $options_translations['delete'] = rex_i18n::msg('d2u_helper_translation_delete');
-                                \TobiasKrais\D2UHelper\BackendHelper::form_select('d2u_helper_translation', 'form[lang]['. $rex_clang->getId() .'][translation_needs_update]', $options_translations, [$job->translation_needs_update], 1, false, $readonly_lang);
+                                BackendHelper::form_select('d2u_helper_translation', 'form[lang]['. $rex_clang->getId() .'][translation_needs_update]', $options_translations, [$job->translation_needs_update], 1, false, $readonly_lang);
                             ?>
 							<script>
 								// Hide on document load
@@ -249,14 +250,14 @@ if ('edit' === $func || 'clone' === $func || 'add' === $func) {
 							</script>
 							<div id="details_clang_<?= $rex_clang->getId() ?>">
 								<?php
-                                    \TobiasKrais\D2UHelper\BackendHelper::form_textarea('jobs_prolog', 'form[lang]['. $rex_clang->getId() .'][prolog]', $job->prolog, 5, false, $readonly_lang, true);
-                                    \TobiasKrais\D2UHelper\BackendHelper::form_input('d2u_helper_name', 'form[lang]['. $rex_clang->getId() .'][name]', $job->name, false, $readonly_lang);
-                                    \TobiasKrais\D2UHelper\BackendHelper::form_input('jobs_tasks_heading', 'form[lang]['. $rex_clang->getId() .'][tasks_heading]', $job->tasks_heading, false, $readonly_lang);
-                                    \TobiasKrais\D2UHelper\BackendHelper::form_textarea('jobs_tasks_text', 'form[lang]['. $rex_clang->getId() .'][tasks_text]', $job->tasks_text, 5, false, $readonly_lang, true);
-                                    \TobiasKrais\D2UHelper\BackendHelper::form_input('jobs_profile_heading', 'form[lang]['. $rex_clang->getId() .'][profile_heading]', $job->profile_heading, false, $readonly_lang);
-                                    \TobiasKrais\D2UHelper\BackendHelper::form_textarea('jobs_profile_text', 'form[lang]['. $rex_clang->getId() .'][profile_text]', $job->profile_text, 5, false, $readonly_lang, true);
-                                    \TobiasKrais\D2UHelper\BackendHelper::form_input('jobs_offer_heading', 'form[lang]['. $rex_clang->getId() .'][offer_heading]', $job->offer_heading, false, $readonly_lang);
-                                    \TobiasKrais\D2UHelper\BackendHelper::form_textarea('jobs_offer_text', 'form[lang]['. $rex_clang->getId() .'][offer_text]', $job->offer_text, 5, false, $readonly_lang, true);
+                                    BackendHelper::form_textarea('jobs_prolog', 'form[lang]['. $rex_clang->getId() .'][prolog]', $job->prolog, 5, false, $readonly_lang, true);
+                                    BackendHelper::form_input('d2u_helper_name', 'form[lang]['. $rex_clang->getId() .'][name]', $job->name, false, $readonly_lang);
+                                    BackendHelper::form_input('jobs_tasks_heading', 'form[lang]['. $rex_clang->getId() .'][tasks_heading]', $job->tasks_heading, false, $readonly_lang);
+                                    BackendHelper::form_textarea('jobs_tasks_text', 'form[lang]['. $rex_clang->getId() .'][tasks_text]', $job->tasks_text, 5, false, $readonly_lang, true);
+                                    BackendHelper::form_input('jobs_profile_heading', 'form[lang]['. $rex_clang->getId() .'][profile_heading]', $job->profile_heading, false, $readonly_lang);
+                                    BackendHelper::form_textarea('jobs_profile_text', 'form[lang]['. $rex_clang->getId() .'][profile_text]', $job->profile_text, 5, false, $readonly_lang, true);
+                                    BackendHelper::form_input('jobs_offer_heading', 'form[lang]['. $rex_clang->getId() .'][offer_heading]', $job->offer_heading, false, $readonly_lang);
+                                    BackendHelper::form_textarea('jobs_offer_text', 'form[lang]['. $rex_clang->getId() .'][offer_text]', $job->offer_text, 5, false, $readonly_lang, true);
                                 ?>
 							</div>
 						</div>
@@ -295,8 +296,8 @@ if ('edit' === $func || 'clone' === $func || 'add' === $func) {
 		}
 	</script>
 	<?php
-        echo \TobiasKrais\D2UHelper\BackendHelper::getCSS();
-        echo \TobiasKrais\D2UHelper\BackendHelper::getJS();
+        echo BackendHelper::getCSS();
+        echo BackendHelper::getJS();
 }
 
 if ('' === $func) {
@@ -353,6 +354,14 @@ if ('' === $func) {
         $list->setColumnParams(rex_i18n::msg('delete_module'), ['func' => 'delete', 'entry_id' => '###job_id###']);
         $list->addLinkAttribute(rex_i18n::msg('delete_module'), 'data-confirm', rex_i18n::msg('d2u_helper_confirm_delete'));
     }
+
+    $list->addColumn(rex_i18n::msg('d2u_helper_open_frontend'), '');
+    $list->setColumnLayout(rex_i18n::msg('d2u_helper_open_frontend'), ['', '<td class="rex-table-action">###VALUE###</td>']);
+    $list->setColumnFormat(rex_i18n::msg('d2u_helper_open_frontend'), 'custom', static function ($params) {
+        $listParams = $params['list'];
+
+        return BackendHelper::getFrontendLinkButton((new \FriendsOfRedaxo\Jobs\Job((int) $listParams->getValue('job_id'), (int) rex_config::get('d2u_helper', 'default_lang')))->getUrl());
+    });
 
     $list->setNoRowsMessage(rex_i18n::msg('jobs_no_jobs_found'));
 

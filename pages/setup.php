@@ -35,6 +35,14 @@ $d2u_module_manager->showManagerList();
 
 <?php if ($showChangelogOnly) { ?>
 <h2>Changelog</h2>
+<p>1.3.0-DEV:</p>
+<ul>
+	<li>Neue Module 23-3 und 23-4 als Bootstrap-5-Varianten der bestehenden Beispielmodule hinzugefügt.</li>
+	<li>Module 23-1 und 23-2 als "(BS4, deprecated)" markiert. Die BS4-Varianten werden im nächsten Major Release entfernt.</li>
+	<li>Benötigt d2u_helper &gt;= 2.1.0.</li>
+	<li>Bugfix: Prioritäten werden bei Kategorien nach dem Speichern wieder stabil neu durchnummeriert, auch wenn in der Datenbank bereits doppelte Werte vorhanden sind.</li>
+	<li>Die Priorität von Kategorien kann in der Backend-Liste jetzt direkt per Hoch-/Runter-Buttons geändert werden.</li>
+</ul>
 <p>1.2.1-DEV:</p>
 <ul>
 	<li>...</li>

@@ -1,4 +1,6 @@
 <?php
+
+use TobiasKrais\D2UHelper\BackendHelper;
 // save settings
 if ('save' === filter_input(INPUT_POST, 'btn_save')) {
     $settings = rex_post('settings', 'array', []);
@@ -23,8 +25,8 @@ if ('save' === filter_input(INPUT_POST, 'btn_save')) {
 
         // Update url schemes
         if (\rex_addon::get('url')->isAvailable()) {
-            \TobiasKrais\D2UHelper\BackendHelper::update_url_scheme(rex::getTablePrefix() .'jobs_url_jobs', $settings['article_id']);
-            \TobiasKrais\D2UHelper\BackendHelper::update_url_scheme(rex::getTablePrefix() .'jobs_url_jobs_categories', $settings['article_id']);
+            BackendHelper::update_url_scheme(rex::getTablePrefix() .'jobs_url_jobs', $settings['article_id']);
+            BackendHelper::update_url_scheme(rex::getTablePrefix() .'jobs_url_jobs_categories', $settings['article_id']);
         }
 
         // Install / update language replacements
@@ -61,9 +63,9 @@ if ('save' === filter_input(INPUT_POST, 'btn_save')) {
 				<legend><small><i class="rex-icon rex-icon-database"></i></small> <?= rex_i18n::msg('d2u_helper_settings') ?></legend>
 				<div class="panel-body-wrapper slide">
 					<?php
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('jobs_settings_email', 'settings[email]', (string) rex_config::get('jobs', 'email'), true, false, 'email');
-                        \TobiasKrais\D2UHelper\BackendHelper::form_linkfield('d2u_helper_article_id', '1', (int) rex_config::get('jobs', 'article_id'), (int) rex_config::get('d2u_helper', 'default_lang'));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_linkfield('jobs_faq_article_id', '2', (int) rex_config::get('jobs', 'faq_article_id'), (int) rex_config::get('d2u_helper', 'default_lang'));
+                        BackendHelper::form_input('jobs_settings_email', 'settings[email]', (string) rex_config::get('jobs', 'email'), true, false, 'email');
+                        BackendHelper::form_linkfield('d2u_helper_article_id', '1', (int) rex_config::get('jobs', 'article_id'), (int) rex_config::get('d2u_helper', 'default_lang'));
+                        BackendHelper::form_linkfield('jobs_faq_article_id', '2', (int) rex_config::get('jobs', 'faq_article_id'), (int) rex_config::get('d2u_helper', 'default_lang'));
                     ?>
 				</div>
 			</fieldset>
@@ -71,7 +73,7 @@ if ('save' === filter_input(INPUT_POST, 'btn_save')) {
 				<legend><small><i class="rex-icon rex-icon-language"></i></small> <?= rex_i18n::msg('d2u_helper_lang_replacements') ?></legend>
 				<div class="panel-body-wrapper slide">
 					<?php
-                        \TobiasKrais\D2UHelper\BackendHelper::form_checkbox('d2u_helper_lang_wildcard_overwrite', 'settings[lang_wildcard_overwrite]', 'true', 'true' === rex_config::get('jobs', 'lang_wildcard_overwrite'));
+                        BackendHelper::form_checkbox('d2u_helper_lang_wildcard_overwrite', 'settings[lang_wildcard_overwrite]', 'true', 'true' === rex_config::get('jobs', 'lang_wildcard_overwrite'));
                         foreach (rex_clang::getAll() as $rex_clang) {
                             echo '<dl class="rex-form-group form-group">';
                             echo '<dt><label>'. $rex_clang->getName() .'</label></dt>';
@@ -100,8 +102,8 @@ if ('save' === filter_input(INPUT_POST, 'btn_save')) {
 				<legend><small><i class="rex-icon fa-google"></i></small> <?= rex_i18n::msg('jobs_settings_google') ?></legend>
 				<div class="panel-body-wrapper slide">
 					<?php
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('jobs_settings_company_name', 'settings[company_name]', (string) rex_config::get('jobs', 'company_name'), true, false, 'text');
-                        \TobiasKrais\D2UHelper\BackendHelper::form_mediafield('jobs_settings_logo', 'logo', (string) rex_config::get('jobs', 'logo'));
+                        BackendHelper::form_input('jobs_settings_company_name', 'settings[company_name]', (string) rex_config::get('jobs', 'company_name'), true, false, 'text');
+                        BackendHelper::form_mediafield('jobs_settings_logo', 'logo', (string) rex_config::get('jobs', 'logo'));
                     ?>
 				</div>
 			</fieldset>
@@ -109,7 +111,7 @@ if ('save' === filter_input(INPUT_POST, 'btn_save')) {
                 <legend><small><i class="rex-icon fa-cloud-download"></i></small> <?= rex_i18n::msg('jobs_hr4you') ?></legend>
                 <div class="panel-body-wrapper slide">
                     <?php
-                        \TobiasKrais\D2UHelper\BackendHelper::form_checkbox('jobs_hr4you_activate', 'settings[use_hr4you]', 'true', (bool) rex_config::get('jobs', 'use_hr4you'));
+                        BackendHelper::form_checkbox('jobs_hr4you_activate', 'settings[use_hr4you]', 'true', (bool) rex_config::get('jobs', 'use_hr4you'));
                         echo '<div id="hr4you_settings"'. ((bool) rex_config::get('jobs', 'use_hr4you', false) ? '' : ' style="display: none;"') .'>';
                         // Default language for import
                         if (count(rex_clang::getAll()) > 1) {
@@ -117,9 +119,9 @@ if ('save' === filter_input(INPUT_POST, 'btn_save')) {
                             foreach (rex_clang::getAll() as $rex_clang) {
                                 $lang_options[$rex_clang->getId()] = $rex_clang->getName();
                             }
-                            \TobiasKrais\D2UHelper\BackendHelper::form_select('jobs_hr4you_settings_default_lang', 'settings[hr4you_default_lang]', $lang_options, [(int) rex_config::get('jobs', 'hr4you_default_lang')]);
+                            BackendHelper::form_select('jobs_hr4you_settings_default_lang', 'settings[hr4you_default_lang]', $lang_options, [(int) rex_config::get('jobs', 'hr4you_default_lang')]);
                         }
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('jobs_hr4you_settings_hr4you_xml_url', 'settings[hr4you_xml_url]', (string) rex_config::get('jobs', 'hr4you_xml_url'), false, false);
+                        BackendHelper::form_input('jobs_hr4you_settings_hr4you_xml_url', 'settings[hr4you_xml_url]', (string) rex_config::get('jobs', 'hr4you_xml_url'), false, false);
                     ?>
                     <dl class="rex-form-group form-group" id="settings[hr4you_media_category]">
                         <dt><label><?= rex_i18n::msg('jobs_hr4you_settings_hr4you_media_category') ?></label></dt>
@@ -140,13 +142,13 @@ if ('save' === filter_input(INPUT_POST, 'btn_save')) {
                         foreach (FriendsOfRedaxo\Jobs\Category::getAll((int) rex_config::get('d2u_helper', 'default_lang'), false) as $job_category) {
                             $job_category_options[$job_category->category_id] = $job_category->name;
                         }
-                        \TobiasKrais\D2UHelper\BackendHelper::form_select('jobs_hr4you_settings_hr4you_default_category', 'settings[hr4you_default_category]', $job_category_options, [(string) rex_config::get('jobs', 'hr4you_default_category')]);
+                        BackendHelper::form_select('jobs_hr4you_settings_hr4you_default_category', 'settings[hr4you_default_category]', $job_category_options, [(string) rex_config::get('jobs', 'hr4you_default_category')]);
                         $job_headline_options = [];
                         for ($i = 1; $i <= 6; ++$i) {
                             $job_headline_options['h'. $i] = htmlspecialchars('Überschrift <h'. $i .'>');
                         }
-                        \TobiasKrais\D2UHelper\BackendHelper::form_select('jobs_hr4you_settings_headline_tag', 'settings[hr4you_headline_tag]', $job_headline_options, [(string) rex_config::get('jobs', 'hr4you_headline_tag')]);
-                        \TobiasKrais\D2UHelper\BackendHelper::form_checkbox('jobs_hr4you_settings_hr4you_autoimport', 'settings[hr4you_autoimport]', 'active', 'active' === rex_config::get('jobs', 'hr4you_autoimport'));
+                        BackendHelper::form_select('jobs_hr4you_settings_headline_tag', 'settings[hr4you_headline_tag]', $job_headline_options, [(string) rex_config::get('jobs', 'hr4you_headline_tag')]);
+                        BackendHelper::form_checkbox('jobs_hr4you_settings_hr4you_autoimport', 'settings[hr4you_autoimport]', 'active', 'active' === rex_config::get('jobs', 'hr4you_autoimport'));
                         echo '</div>';
                     ?>
                     <script>
@@ -172,6 +174,6 @@ if ('save' === filter_input(INPUT_POST, 'btn_save')) {
 	</div>
 </form>
 <?php
-    echo \TobiasKrais\D2UHelper\BackendHelper::getCSS();
-    echo \TobiasKrais\D2UHelper\BackendHelper::getJS();
-    echo \TobiasKrais\D2UHelper\BackendHelper::getJSOpenAll();
+    echo BackendHelper::getCSS();
+    echo BackendHelper::getJS();
+    echo BackendHelper::getJSOpenAll();

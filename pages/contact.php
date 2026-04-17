@@ -1,4 +1,6 @@
 <?php
+
+use TobiasKrais\D2UHelper\BackendHelper;
 $func = rex_request('func', 'string');
 $entry_id = rex_request('entry_id', 'int');
 $message = rex_get('message', 'string');
@@ -83,12 +85,12 @@ if ('edit' === $func || 'add' === $func) {
                                 $readonly = false;
                             }
 
-                            \TobiasKrais\D2UHelper\BackendHelper::form_input('d2u_helper_name', 'form[name]', $contact->name, true, $readonly);
-                            \TobiasKrais\D2UHelper\BackendHelper::form_input('jobs_email', 'form[email]', $contact->email, true, $readonly, 'email');
-                            \TobiasKrais\D2UHelper\BackendHelper::form_input('jobs_phone', 'form[phone]', $contact->phone, true, $readonly);
-                            \TobiasKrais\D2UHelper\BackendHelper::form_input('jobs_phone_video', 'form[phone_video]', $contact->phone_video, false, $readonly);
-                            \TobiasKrais\D2UHelper\BackendHelper::form_infotext('jobs_phone_video_hint', 'phone_video_label');
-                            \TobiasKrais\D2UHelper\BackendHelper::form_mediafield('d2u_helper_picture', '1', $contact->picture, $readonly);
+                            BackendHelper::form_input('d2u_helper_name', 'form[name]', $contact->name, true, $readonly);
+                            BackendHelper::form_input('jobs_email', 'form[email]', $contact->email, true, $readonly, 'email');
+                            BackendHelper::form_input('jobs_phone', 'form[phone]', $contact->phone, true, $readonly);
+                            BackendHelper::form_input('jobs_phone_video', 'form[phone_video]', $contact->phone_video, false, $readonly);
+                            BackendHelper::form_infotext('jobs_phone_video_hint', 'phone_video_label');
+                            BackendHelper::form_mediafield('d2u_helper_picture', '1', $contact->picture, $readonly);
                         ?>
 					</div>
 				</fieldset>
@@ -119,7 +121,7 @@ if ('edit' === $func || 'add' === $func) {
 		});
 	</script>
 	<?php
-        echo \TobiasKrais\D2UHelper\BackendHelper::getCSS();
+        echo BackendHelper::getCSS();
 }
 
 if ('' === $func) {
