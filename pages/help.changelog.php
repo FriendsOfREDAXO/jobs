@@ -1,6 +1,10 @@
 <?php
 ?>
 <h2>Changelog</h2>
+<p>1.3.1-DEV:</p>
+<ul>
+	<li>...</li>
+</ul>
 <p>1.3.0:</p>
 <ul>
 	<li>Backend-Navigation für Einstellungen und Setup an die Struktur des d2u_references Addons angeglichen.</li>
