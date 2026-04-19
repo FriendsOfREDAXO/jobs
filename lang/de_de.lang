@@ -53,6 +53,7 @@ jobs_rights_settings = Stellenmarkt Addon: Einstellungen
 jobs_hr4you = HR4YOU Import
 jobs_hr4you_activate = HR4YOU Import nutzen
 jobs_hr4you_category_id = HR4You Kategorie ID
+jobs_hr4you_disabled = HR4YOU Import ist in den Einstellungen deaktiviert.
 jobs_hr4you_import = Import starten
 jobs_hr4you_import_failure_xml_url = Zu importierende XML-Datei konnte nicht heruntergeladen werden. Bitte überprüfen Sie die URL in den Einstellungen.
 jobs_hr4you_import_job_id = HR4You ID

@@ -11,9 +11,12 @@ if (rex::isBackend() && is_object(rex::getUser())) {
 
     // hide hr4you import page if not activated in settings
     if ((bool) rex_config::get('jobs', 'use_hr4you') === FALSE) {
-        $page = $this->getProperty('page');
-        unset($page['subpages']['hr4you_import']);
-        $this->setProperty('page', $page);
+        $addon = rex_addon::get('jobs');
+        $page = $addon->getProperty('page');
+        if (is_array($page) && isset($page['subpages']['hr4you_import'])) {
+            unset($page['subpages']['hr4you_import']);
+            $addon->setProperty('page', $page);
+        }
     }
 }
 

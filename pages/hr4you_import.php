@@ -1,5 +1,11 @@
 <h1>HR4YOU Import Plugin </h1>
 <?php
+if (!(bool) rex_config::get('jobs', 'use_hr4you')) {
+	echo rex_view::warning(rex_i18n::msg('jobs_hr4you_disabled'));
+
+	return;
+}
+
 $func = rex_request('func', 'string');
 
 if ('import' === $func) {

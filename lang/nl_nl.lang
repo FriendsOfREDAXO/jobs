@@ -53,6 +53,7 @@ jobs_rights_settings = Banenmarkt add-on: instellingen
 jobs_hr4you = HR4YOU-import
 jobs_hr4you_activate = HR4YOU-import gebruiken
 jobs_hr4you_category_id = HR4You-categorie-ID
+jobs_hr4you_disabled = HR4YOU-import is in de instellingen gedeactiveerd.
 jobs_hr4you_import = Import starten
 jobs_hr4you_import_failure_xml_url = Het te importeren XML-bestand kon niet worden gedownload. Controleer de URL in de instellingen.
 jobs_hr4you_import_job_id = HR4You-ID

@@ -11,8 +11,13 @@ page:
         category: { title: 'translate:d2u_helper_category', icon: rex-icon rex-icon-open-category }
         contact: { title: 'translate:jobs_contacts', icon: rex-icon rex-icon-user, perm: 'jobs[edit_data]' }
         hr4you_import: { title: 'translate:jobs_hr4you', icon: rex-icon rex-icon-user, perm: 'jobs[hr4you]' }
-        setup: { title: 'translate:d2u_helper_setup', icon: rex-icon rex-icon-install, itemClass: pull-right, perm: 'jobs[settings]' }
-        settings: { title: 'translate:d2u_helper_settings', icon: rex-icon rex-icon-system, itemClass: pull-right, perm: 'jobs[settings]' }
+        settings:
+            icon: rex-icon rex-icon-system
+            title: ''
+            itemClass: pull-right
+            subpages:
+                settings: { title: 'translate:d2u_helper_settings', icon: rex-icon rex-icon-system, perm: 'jobs[settings]' }
+                setup: { title: 'translate:d2u_helper_setup', icon: rex-icon rex-icon-install, perm: 'jobs[settings]' }
         help:
             title: ''
             icon: rex-icon rex-icon-help

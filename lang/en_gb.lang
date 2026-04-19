@@ -53,6 +53,7 @@ jobs_rights_settings = Jobs addon: settings
 jobs_hr4you = HR4YOU Import
 jobs_hr4you_activate = Use HR4YOU import
 jobs_hr4you_category_id = HR4You category ID
+jobs_hr4you_disabled = HR4YOU import is disabled in settings.
 jobs_hr4you_import = Import
 jobs_hr4you_import_failure_xml_url = Error loading XML file to be imported. Please check URL settings.
 jobs_hr4you_import_job_id = HR4You ID
