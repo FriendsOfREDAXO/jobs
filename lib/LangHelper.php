@@ -172,7 +172,7 @@ class LangHelper extends \TobiasKrais\D2UHelper\ALangHelper
         'jobs_faq' => 'FAQ',
         'jobs_faq_link' => 'Ansehen',
         'jobs_faq_text' => 'Die häufigsten Fragen und hilfreiche Antworten.',
-        'jobs_footer' => 'Bitte senden Sie uns Ihre kompletten Bewerbungsunterlagen mit dem frühestmöglichen Eintrittstermin und Ihrer Gehaltvorstellung per E-Mail mit dem Stichwort „Karriere“ im Betreff an:',
+        'jobs_footer' => 'Bitte senden Sie uns Ihre kompletten Bewerbungsunterlagen mit dem frühestmöglichen Eintrittstermin und Ihrer Gehaltsvorstellung per E-Mail mit dem Stichwort „Karriere“ im Betreff an:',
         'jobs_hr4you_offer_heading' => 'Unser Angebot',
         'jobs_hr4you_profile_heading' => 'Ihr Profil',
         'jobs_hr4you_tasks_heading' => 'Ihre Aufgaben',
@@ -185,7 +185,7 @@ class LangHelper extends \TobiasKrais\D2UHelper\ALangHelper
         'jobs_module_attachment_type_error_msg' => 'Dateityp nicht erlaubt.',
         'jobs_module_form_thanks' => 'Vielen Dank für Ihre Bewerbung. Unsere Personalabteilung wird umgehend mit Ihnen Kontakt aufnehmen.',
         'jobs_module_form_your_data' => 'Zusammenfassung Bewerbungsdaten',
-        'jobs_no_jobs_found' => 'Es tut uns leid, aber es wurden keine Stellenabgebote gefunden.',
+        'jobs_no_jobs_found' => 'Es tut uns leid, aber es wurden keine Stellenangebote gefunden.',
         'jobs_phone' => 'Tel.',
         'jobs_questions' => 'Wenn Sie Fragen zur ausgeschriebenen Stelle haben, wenden Sie sich bitte an:',
         'jobs_reference_number' => 'Referenznummer',
@@ -206,7 +206,7 @@ class LangHelper extends \TobiasKrais\D2UHelper\ALangHelper
         'jobs_announcement' => 'Anuncio completo',
         'jobs_application_link' => 'Formulario online',
         'jobs_catgories' => 'Categorías',
-        'jobs_cities' => 'Cuidades',
+        'jobs_cities' => 'Ciudades',
         'jobs_faq' => 'Preguntas más frecuentes',
         'jobs_faq_link' => 'Vista',
         'jobs_faq_text' => 'Las preguntas más frecuentes y respuestas útiles.',
@@ -235,7 +235,7 @@ class LangHelper extends \TobiasKrais\D2UHelper\ALangHelper
         'jobs_salary_unit_YEAR' => 'Ano',
         'jobs_work_hours' => 'Horas semanales',
         'jobs_vacancies' => 'Vacantes',
-        'jobs_video_application' => 'Applicación de video',
+        'jobs_video_application' => 'Aplicación de video',
     ];
 
     /** @var array<string,string> Array with russian replacements. Key is the wildcard, value the replacement. */
