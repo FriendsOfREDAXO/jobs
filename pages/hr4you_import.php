@@ -1,5 +1,6 @@
 <h1>HR4YOU Import Plugin </h1>
 <?php
+$csrfToken = rex_csrf_token::factory('jobs_hr4you_import');
 if (!(bool) rex_config::get('jobs', 'use_hr4you')) {
 	echo rex_view::warning(rex_i18n::msg('jobs_hr4you_disabled'));
 
@@ -7,15 +8,21 @@ if (!(bool) rex_config::get('jobs', 'use_hr4you')) {
 }
 
 $func = rex_request('func', 'string');
+$invalidCsrf = false;
 
 if ('import' === $func) {
-    if (\FriendsOfRedaxo\Jobs\Hr4youImport::import()) {
+	if (!$csrfToken->isValid()) {
+		echo rex_view::error(rex_i18n::msg('csrf_token_invalid'));
+		$invalidCsrf = true;
+		$func = '';
+	}
+    if (!$invalidCsrf && \FriendsOfRedaxo\Jobs\Hr4youImport::import()) {
         echo rex_view::success(rex_i18n::msg('jobs_hr4you_import_success'));
     }
 }
 
 if ('' !== rex_config::get('jobs', 'hr4you_xml_url')) {
-    echo "<a href='". rex_url::currentBackendPage(['func' => 'import']) ."'>"
+	 echo "<a href='". rex_url::currentBackendPage(['func' => 'import'] + $csrfToken->getUrlParams()) ."'>"
             . "<button class='btn btn-apply'>". rex_i18n::msg('jobs_hr4you_import') .'</button></a>';
 }
 ?>
