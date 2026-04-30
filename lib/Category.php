@@ -177,10 +177,10 @@ class Category implements \TobiasKrais\D2UHelper\ITranslationHelper
     public static function getByHR4YouName($hr4you_name)
     {
         $query = 'SELECT category_id FROM '. rex::getTablePrefix() .'jobs_categories_lang '
-                .'WHERE name = "'. $hr4you_name .'" '
+                .'WHERE name = :name '
                 .'LIMIT 1';
         $result = rex_sql::factory();
-        $result->setQuery($query);
+        $result->setQuery($query, [':name' => $hr4you_name]);
 
         if ($result->getRows() > 0) {
             return new self((int) $result->getValue('category_id'), (int) rex_config::get('jobs', 'hr4you_default_lang'));
@@ -293,17 +293,24 @@ class Category implements \TobiasKrais\D2UHelper\ITranslationHelper
 
         if (0 === $this->category_id || $pre_save_object !== $this) {
             $query = rex::getTablePrefix() .'jobs_categories SET '
-                .'priority = '. $this->priority .', '
-                ."picture = '". $this->picture ."', "
-                .'hr4you_category_id = '. $this->hr4you_category_id;
+                .'priority = :priority, '
+                .'picture = :picture, '
+                .'hr4you_category_id = :hr4you_category_id';
+
+            $params = [
+                ':priority' => $this->priority,
+                ':picture' => $this->picture,
+                ':hr4you_category_id' => $this->hr4you_category_id,
+            ];
 
             if (0 === $this->category_id) {
                 $query = 'INSERT INTO '. $query;
             } else {
-                $query = 'UPDATE '. $query .' WHERE category_id = '. $this->category_id;
+                $query = 'UPDATE '. $query .' WHERE category_id = :category_id';
+                $params[':category_id'] = $this->category_id;
             }
             $result = rex_sql::factory();
-            $result->setQuery($query);
+            $result->setQuery($query, $params);
             if (0 === $this->category_id) {
                 $this->category_id = (int) $result->getLastId();
                 $error = $result->hasError();
@@ -316,13 +323,18 @@ class Category implements \TobiasKrais\D2UHelper\ITranslationHelper
             $pre_save_object = new self($this->category_id, $this->clang_id);
             if ($pre_save_object !== $this) {
                 $query = 'REPLACE INTO '. rex::getTablePrefix() .'jobs_categories_lang SET '
-                        ."category_id = '". $this->category_id ."', "
-                        ."clang_id = '". $this->clang_id ."', "
-                        ."name = '". addslashes($this->name) ."', "
-                        ."translation_needs_update = '". $this->translation_needs_update ."' ";
+                        .'category_id = :category_id, '
+                        .'clang_id = :clang_id, '
+                        .'name = :name, '
+                        .'translation_needs_update = :translation_needs_update ';
 
                 $result = rex_sql::factory();
-                $result->setQuery($query);
+                $result->setQuery($query, [
+                    ':category_id' => $this->category_id,
+                    ':clang_id' => $this->clang_id,
+                    ':name' => $this->name,
+                    ':translation_needs_update' => $this->translation_needs_update,
+                ]);
                 $error = $result->hasError();
 
                 if (!$error && $pre_save_object->name !== $this->name) {

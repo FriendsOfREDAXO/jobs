@@ -152,31 +152,31 @@ function rex_jobs_media_is_in_use(rex_extension_point $ep)
 {
     $warning = $ep->getSubject();
     $params = $ep->getParams();
-    $filename = addslashes((string) $params['filename']);
+    $filename = (string) $params['filename'];
 
     // Jobs
     $sql_jobs = rex_sql::factory();
     $sql_jobs->setQuery('SELECT lang.job_id, name FROM `' . rex::getTablePrefix() . 'jobs_jobs_lang` AS lang '
         .'LEFT JOIN `' . rex::getTablePrefix() . 'jobs_jobs` AS jobs ON lang.job_id = jobs.job_id '
-        .'WHERE picture = "'. $filename .'" '
-        .'GROUP BY job_id');
+        .'WHERE picture = :picture '
+        .'GROUP BY job_id', [':picture' => $filename]);
 
     // Categories
     $sql_categories = rex_sql::factory();
     $sql_categories->setQuery('SELECT lang.category_id, name FROM `' . rex::getTablePrefix() . 'jobs_categories_lang` AS lang '
         .'LEFT JOIN `' . rex::getTablePrefix() . 'jobs_categories` AS categories ON lang.category_id = categories.category_id '
-        .'WHERE picture = "'. $filename .'"');
+        .'WHERE picture = :picture', [':picture' => $filename]);
 
     // Contacts
     $sql_contacts = rex_sql::factory();
     $sql_contacts->setQuery('SELECT contact_id, name FROM `' . rex::getTablePrefix() . 'jobs_contacts` '
-        .'WHERE picture = "'. $filename .'"');
+        .'WHERE picture = :picture', [':picture' => $filename]);
 
     // Prepare warnings
     // Jobs
     for ($i = 0; $i < $sql_jobs->getRows(); ++$i) {
         $message = '<a href="javascript:openPage(\'index.php?page=jobs/jobs&func=edit&entry_id='.
-            $sql_jobs->getValue('job_id') .'\')">'. rex_i18n::msg('jobs_rights_all') .' - '. rex_i18n::msg('jobs') .': '. $sql_jobs->getValue('name') .'</a>';
+            (int) $sql_jobs->getValue('job_id') .'\')">'. rex_i18n::msg('jobs_rights_all') .' - '. rex_i18n::msg('jobs') .': '. rex_escape((string) $sql_jobs->getValue('name')) .'</a>';
         if (!in_array($message, $warning, true)) {
             $warning[] = $message;
         }
@@ -185,8 +185,8 @@ function rex_jobs_media_is_in_use(rex_extension_point $ep)
 
     // Categories
     for ($i = 0; $i < $sql_categories->getRows(); ++$i) {
-        $message = '<a href="javascript:openPage(\'index.php?page=jobs/category&func=edit&entry_id='. $sql_categories->getValue('category_id') .'\')">'.
-             rex_i18n::msg('jobs_rights_all') .' - '. rex_i18n::msg('d2u_helper_category') .': '. $sql_categories->getValue('name') . '</a>';
+        $message = '<a href="javascript:openPage(\'index.php?page=jobs/category&func=edit&entry_id='. (int) $sql_categories->getValue('category_id') .'\')">'.
+             rex_i18n::msg('jobs_rights_all') .' - '. rex_i18n::msg('d2u_helper_category') .': '. rex_escape((string) $sql_categories->getValue('name')) . '</a>';
         if (!in_array($message, $warning, true)) {
             $warning[] = $message;
         }
@@ -195,8 +195,8 @@ function rex_jobs_media_is_in_use(rex_extension_point $ep)
 
     // Contacts
     for ($i = 0; $i < $sql_contacts->getRows(); ++$i) {
-        $message = '<a href="javascript:openPage(\'index.php?page=jobs/contact&func=edit&entry_id='. $sql_contacts->getValue('contact_id') .'\')">'.
-             rex_i18n::msg('jobs_rights_all') .' - '. rex_i18n::msg('jobs_contacts') .': '. $sql_contacts->getValue('name') . '</a>';
+        $message = '<a href="javascript:openPage(\'index.php?page=jobs/contact&func=edit&entry_id='. (int) $sql_contacts->getValue('contact_id') .'\')">'.
+             rex_i18n::msg('jobs_rights_all') .' - '. rex_i18n::msg('jobs_contacts') .': '. rex_escape((string) $sql_contacts->getValue('name')) . '</a>';
         if (!in_array($message, $warning, true)) {
             $warning[] = $message;
         }

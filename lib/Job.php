@@ -350,17 +350,19 @@ class Job implements \TobiasKrais\D2UHelper\ITranslationHelper
         $query = 'SELECT lang.job_id FROM '. rex::getTablePrefix() .'jobs_jobs_lang AS lang '
                 .'LEFT JOIN '. rex::getTablePrefix() .'jobs_jobs AS jobs '
                     .'ON lang.job_id = jobs.job_id '
-                .'WHERE clang_id = '. $clang_id;
+                .'WHERE clang_id = :clang_id';
+        $params = [':clang_id' => $clang_id];
         if ($online_only) {
             $query .= " AND online_status = 'online'";
         }
         if ('' !== $country_code) {
-            $query .= " AND country_code = '". $country_code ."'";
+            $query .= ' AND country_code = :country_code';
+            $params[':country_code'] = $country_code;
         }
         $query .= ' ORDER BY date DESC';
 
         $result = rex_sql::factory();
-        $result->setQuery($query);
+        $result->setQuery($query, $params);
 
         $jobs = [];
         for ($i = 0; $i < $result->getRows(); ++$i) {
@@ -384,8 +386,10 @@ class Job implements \TobiasKrais\D2UHelper\ITranslationHelper
                 .'LEFT JOIN '. rex::getTablePrefix() .'jobs_jobs AS jobs '
                     .'ON lang.job_id = jobs.job_id';
         $where = [];
+        $params = [];
         if ('' !== $country_code) {
-            $where[] = " country_code = '". $country_code ."'";
+            $where[] = ' country_code = :country_code';
+            $params[':country_code'] = $country_code;
         }
         if ($online_only) {
             $where[] = " online_status = 'online'";
@@ -393,7 +397,7 @@ class Job implements \TobiasKrais\D2UHelper\ITranslationHelper
         $query .= (count($where) > 0 ? ' WHERE '. implode(' AND', $where) : ''). ' ORDER BY date DESC';
 
         $result = rex_sql::factory();
-        $result->setQuery($query);
+        $result->setQuery($query, $params);
 
         $jobs = [];
         for ($i = 0; $i < $result->getRows(); ++$i) {
@@ -636,32 +640,54 @@ class Job implements \TobiasKrais\D2UHelper\ITranslationHelper
 
         if (0 === $this->job_id || $pre_save_job !== $this) {
             $query = rex::getTablePrefix() .'jobs_jobs SET '
-                    ."reference_number = '". $this->reference_number ."', "
-                    ."category_ids = '|". implode('|', array_keys($this->categories)) ."|', "
-                    .'contact_id = '. ($this->contact instanceof Contact ? $this->contact->contact_id : 0) .', '
-                    ."date = '". $this->date ."', "
-                    ."city = '". $this->city ."', "
-                    ."zip_code = '". $this->zip_code ."', "
-                    ."country_code = '". $this->country_code ."', "
-                    ."picture = '". $this->picture ."', "
-                    ."internal_name = '". addslashes($this->internal_name) ."', "
-                    ."online_status = '". $this->online_status ."', "
-                    ."type = '". $this->type ."', "
-                    .'hr4you_job_id = '. $this->hr4you_job_id .', '
-                    ."hr4you_url_application_form = '". $this->hr4you_url_application_form ."', "
-                    ."salary_currency = '". addslashes($this->salary_currency) ."', "
-                    .'salary_min = '. $this->salary_min .', '
-                    .'salary_max = '. $this->salary_max .', '
-                    ."salary_unit_text = '". addslashes($this->salary_unit_text) ."', "
-                    .'work_hours = '. $this->work_hours;
+                    .'reference_number = :reference_number, '
+                    .'category_ids = :category_ids, '
+                    .'contact_id = :contact_id, '
+                    .'date = :date, '
+                    .'city = :city, '
+                    .'zip_code = :zip_code, '
+                    .'country_code = :country_code, '
+                    .'picture = :picture, '
+                    .'internal_name = :internal_name, '
+                    .'online_status = :online_status, '
+                    .'type = :type, '
+                    .'hr4you_job_id = :hr4you_job_id, '
+                    .'hr4you_url_application_form = :hr4you_url_application_form, '
+                    .'salary_currency = :salary_currency, '
+                    .'salary_min = :salary_min, '
+                    .'salary_max = :salary_max, '
+                    .'salary_unit_text = :salary_unit_text, '
+                    .'work_hours = :work_hours';
+
+            $params = [
+                ':reference_number' => $this->reference_number,
+                ':category_ids' => '|'. implode('|', array_keys($this->categories)) .'|',
+                ':contact_id' => $this->contact instanceof Contact ? $this->contact->contact_id : 0,
+                ':date' => $this->date,
+                ':city' => $this->city,
+                ':zip_code' => $this->zip_code,
+                ':country_code' => $this->country_code,
+                ':picture' => $this->picture,
+                ':internal_name' => $this->internal_name,
+                ':online_status' => $this->online_status,
+                ':type' => $this->type,
+                ':hr4you_job_id' => $this->hr4you_job_id,
+                ':hr4you_url_application_form' => $this->hr4you_url_application_form,
+                ':salary_currency' => $this->salary_currency,
+                ':salary_min' => $this->salary_min,
+                ':salary_max' => $this->salary_max,
+                ':salary_unit_text' => $this->salary_unit_text,
+                ':work_hours' => $this->work_hours,
+            ];
 
             if (0 === $this->job_id) {
                 $query = 'INSERT INTO '. $query;
             } else {
-                $query = 'UPDATE '. $query .' WHERE job_id = '. $this->job_id;
+                $query = 'UPDATE '. $query .' WHERE job_id = :job_id';
+                $params[':job_id'] = $this->job_id;
             }
             $result = rex_sql::factory();
-            $result->setQuery($query);
+            $result->setQuery($query, $params);
             if (0 === $this->job_id) {
                 $this->job_id = (int) $result->getLastId();
                 $error = $result->hasError();
@@ -674,27 +700,43 @@ class Job implements \TobiasKrais\D2UHelper\ITranslationHelper
             $pre_save_object = new self($this->job_id, $this->clang_id);
             if ($pre_save_object !== $this) {
                 $query = 'REPLACE INTO '. rex::getTablePrefix() .'jobs_jobs_lang SET '
-                        ."job_id = '". $this->job_id ."', "
-                        ."clang_id = '". $this->clang_id ."', "
-                        ."name = '". addslashes($this->name) ."', "
-                        ."prolog = '". addslashes($this->prolog) ."', "
-                        ."tasks_heading = '". addslashes($this->tasks_heading) ."', "
-                        ."tasks_text = '". addslashes($this->tasks_text) ."', "
-                        ."profile_heading = '". addslashes($this->profile_heading) ."', "
-                        ."profile_text = '". addslashes($this->profile_text) ."', "
-                        ."offer_heading = '". addslashes($this->offer_heading) ."', "
-                        ."offer_text = '". addslashes($this->offer_text) ."', "
-                        ."translation_needs_update = '". $this->translation_needs_update ."', "
+                        .'job_id = :job_id, '
+                        .'clang_id = :clang_id, '
+                        .'name = :name, '
+                        .'prolog = :prolog, '
+                        .'tasks_heading = :tasks_heading, '
+                        .'tasks_text = :tasks_text, '
+                        .'profile_heading = :profile_heading, '
+                        .'profile_text = :profile_text, '
+                        .'offer_heading = :offer_heading, '
+                        .'offer_text = :offer_text, '
+                        .'translation_needs_update = :translation_needs_update, '
                         .'updatedate = CURRENT_TIMESTAMP ';
+
+                $params = [
+                    ':job_id' => $this->job_id,
+                    ':clang_id' => $this->clang_id,
+                    ':name' => $this->name,
+                    ':prolog' => $this->prolog,
+                    ':tasks_heading' => $this->tasks_heading,
+                    ':tasks_text' => $this->tasks_text,
+                    ':profile_heading' => $this->profile_heading,
+                    ':profile_text' => $this->profile_text,
+                    ':offer_heading' => $this->offer_heading,
+                    ':offer_text' => $this->offer_text,
+                    ':translation_needs_update' => $this->translation_needs_update,
+                ];
+
                 if (rex::getUser() instanceof rex_user) {
-                    $query .= ", updateuser = '". rex::getUser()->getLogin() ."' ";
-                }
-                else {
-                    $query .= ", hr4you_lead_in = '". $this->hr4you_lead_in ."' "
-                            . ", updateuser = 'hr4you_autoimport' ";
+                    $query .= ', updateuser = :updateuser ';
+                    $params[':updateuser'] = rex::getUser()->getLogin();
+                } else {
+                    $query .= ', hr4you_lead_in = :hr4you_lead_in '
+                            .", updateuser = 'hr4you_autoimport' ";
+                    $params[':hr4you_lead_in'] = $this->hr4you_lead_in;
                 }
                 $result = rex_sql::factory();
-                $result->setQuery($query);
+                $result->setQuery($query, $params);
                 $error = $result->hasError();
 
                 if (!$error && $pre_save_object->name !== $this->name) {

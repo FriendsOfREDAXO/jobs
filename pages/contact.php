@@ -74,7 +74,7 @@ if ((!$invalidCsrf && 1 === (int) filter_input(INPUT_POST, 'btn_delete', FILTER_
     } else {
         $message = '<ul>';
         foreach ($uses_jobs as $uses_job) {
-            $message .= '<li><a href="index.php?page=jobs/jobs&func=edit&entry_id='. $uses_job->job_id .'">'. $uses_job->name.'</a></li>';
+            $message .= '<li><a href="index.php?page=jobs/jobs&func=edit&entry_id='. (int) $uses_job->job_id .'">'. rex_escape($uses_job->name).'</a></li>';
         }
         $message .= '</ul>';
 

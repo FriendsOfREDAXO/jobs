@@ -5,6 +5,10 @@
 <ul>
 	<li>Backend: CSRF-Schutz fuer Speichern-, Loesch- und Statusaktionen der Stellenverwaltung sowie fuer den HR4YOU-Import ergaenzt.</li>
 	<li>Backend: CSRF-Schutz fuer Modul-Installation, -Update und -Deinstallation auf der Setup-Seite ergaenzt.</li>
+	<li>Sicherheit: Job-, Category- und Contact-Modelle speichern jetzt mit gebundenen Parametern. Die bisherigen addslashes()-Aufrufe und String-Konkatenationen in Save- und Suchqueries entfallen damit.</li>
+	<li>Sicherheit: boot.php (Medien-In-Use-Check) bindet den Dateinamen jetzt als Parameter und escaped die ausgegebenen Job-, Kategorie- und Kontaktnamen.</li>
+	<li>Sicherheit: Module 23-1 bis 23-4 sowie der FrontendHelper escapen Job-, Kategorie- und Kontaktdaten in HTML-Attributen, URLs und Ueberschriften, damit aus der Datenbank stammende Werte (z.B. aus dem HR4YOU-Import) nicht als HTML interpretiert werden.</li>
+	<li>Sicherheit: Backend-Hinweise auf der Kategorie- und Kontakt-Seite escapen Jobnamen.</li>
 </ul>
 <p>1.3.0:</p>
 <ul>

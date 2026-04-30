@@ -95,11 +95,11 @@ class FrontendHelper
 
         // Breadcrumbs
         if ($category instanceof Category && '' !== $category->name) {
-            $breadcrumbs[] = '<a href="' . $category->getUrl() . '">' . $category->name . '</a>';
+            $breadcrumbs[] = '<a href="' . rex_escape($category->getUrl()) . '">' . rex_escape($category->name) . '</a>';
         }
         if ($job instanceof Job && '' !== $job->name) {
             $job_url = $job->clang_id === rex_clang::getCurrentId() ? $job->getUrl() : rex_getUrl('', '', ['job_id' => $job->job_id, 'target_clang' => $job->clang_id]);
-            $breadcrumbs[] = '<a href="' . $job_url . '">' . $job->name . '</a>';
+            $breadcrumbs[] = '<a href="' . rex_escape($job_url) . '">' . rex_escape($job->name) . '</a>';
         }
 
         return $breadcrumbs;

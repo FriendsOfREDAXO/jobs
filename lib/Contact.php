@@ -99,9 +99,9 @@ class Contact
     public static function getByMail($email)
     {
         $query = 'SELECT contact_id FROM '. rex::getTablePrefix() .'jobs_contacts '
-                ."WHERE email = '". $email ."'";
+                .'WHERE email = :email';
         $result = rex_sql::factory();
-        $result->setQuery($query);
+        $result->setQuery($query, [':email' => $email]);
         $num_rows = $result->getRows();
 
         if ($num_rows > 0) {
@@ -152,20 +152,29 @@ class Contact
 
         if (0 === $this->contact_id || $pre_save_object !== $this) {
             $query = rex::getTablePrefix() .'jobs_contacts SET '
-                    ."email = '". $this->email ."', "
-                    ."name = '". addslashes($this->name) ."', "
-                    ."phone = '". $this->phone ."', "
-                    ."phone_video = '". $this->phone_video ."', "
-                    ."picture = '". (str_contains($this->picture, 'noavatar.jpg') ? '' : $this->picture) ."' ";
+                    .'email = :email, '
+                    .'name = :name, '
+                    .'phone = :phone, '
+                    .'phone_video = :phone_video, '
+                    .'picture = :picture ';
+
+            $params = [
+                ':email' => $this->email,
+                ':name' => $this->name,
+                ':phone' => $this->phone,
+                ':phone_video' => $this->phone_video,
+                ':picture' => str_contains($this->picture, 'noavatar.jpg') ? '' : $this->picture,
+            ];
 
             if (0 === $this->contact_id) {
                 $query = 'INSERT INTO '. $query;
             } else {
-                $query = 'UPDATE '. $query .' WHERE contact_id = '. $this->contact_id;
+                $query = 'UPDATE '. $query .' WHERE contact_id = :contact_id';
+                $params[':contact_id'] = $this->contact_id;
             }
 
             $result = rex_sql::factory();
-            $result->setQuery($query);
+            $result->setQuery($query, $params);
             if (0 === $this->contact_id) {
                 $this->contact_id = (int) $result->getLastId();
                 $error = $result->hasError();

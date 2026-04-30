@@ -43,7 +43,7 @@ if (rex::isBackend()) {
 	<h1 style="font-size: 1.5em;">Stellenmarkt Ausgabe</h1>
 <?php
     if ($category instanceof Category) {
-        echo '<p>Anzuzeigende Kategorie: '. $category->name .'</p>';
+        echo '<p>Anzuzeigende Kategorie: '. rex_escape($category->name) .'</p>';
     } else {
         echo '<p>Anzuzeigende Kategorien: Alle</p>';
     }
@@ -69,19 +69,19 @@ if (rex::isBackend()) {
         }
         echo '<div class="col-12 col-lg-8">';
         echo '<article class="job-box">';
-        echo '<img src="'. ('' !== $job->picture ? rex_media_manager::getUrl('jobs_jobheader', $job->picture) : \rex_url::addonAssets('jobs', 'noavatar.jpg'))  .'" alt="'. strip_tags($job->name) .'">';
+        echo '<img src="'. rex_escape('' !== $job->picture ? rex_media_manager::getUrl('jobs_jobheader', $job->picture) : \rex_url::addonAssets('jobs', 'noavatar.jpg'))  .'" alt="'. rex_escape(strip_tags($job->name)) .'">';
         if ('' !== $job->prolog) { /** @phpstan-ignore-line */
             echo '<div class="prolog">'. $job->prolog .'</div>';
         }
         echo '<div class="heading">';
-        echo '<h2>'. $job->name .'</h2>';
+        echo '<h2>'. rex_escape($job->name) .'</h2>';
         if ('' !== $job->city || '' !== $job->reference_number) {
             echo '<p><b>';
             if ('' !== $job->city) {
-                echo \Sprog\Wildcard::get('jobs_region', $job->clang_id) .': '. $job->city . ('' !== $job->reference_number ? ' / ' : '');
+                echo \Sprog\Wildcard::get('jobs_region', $job->clang_id) .': '. rex_escape($job->city) . ('' !== $job->reference_number ? ' / ' : '');
             }
             if ('' !== $job->reference_number) {
-                echo \Sprog\Wildcard::get('jobs_reference_number', $job->clang_id) .': '. $job->reference_number;
+                echo \Sprog\Wildcard::get('jobs_reference_number', $job->clang_id) .': '. rex_escape($job->reference_number);
             }
             echo '</b></p>';
         }
@@ -206,27 +206,27 @@ if (rex::isBackend()) {
                 echo $job->hr4you_lead_in;
             }
             if ('' !== $job->tasks_heading) {
-                echo '<h3>'. $job->tasks_heading .'</h3>';
+                echo '<h3>'. rex_escape($job->tasks_heading) .'</h3>';
                 echo prepareText($job->tasks_text);
             }
             if ('' !== $job->profile_heading) {
-                echo '<h3>'. $job->profile_heading .'</h3>';
+                echo '<h3>'. rex_escape($job->profile_heading) .'</h3>';
                 echo prepareText($job->profile_text);
             }
             if ('' !== $job->offer_heading) {
-                echo '<h3>'. $job->offer_heading .'</h3>';
+                echo '<h3>'. rex_escape($job->offer_heading) .'</h3>';
                 echo prepareText($job->offer_text);
             }
             if ('' !== $job->hr4you_url_application_form) {
-                echo '<p><a target="_blank" href="'. $job->hr4you_url_application_form .'">'
+                echo '<p><a target="_blank" href="'. rex_escape($job->hr4you_url_application_form) .'">'
                     .'<button class="d2u_application_form_button">'. \Sprog\Wildcard::get('jobs_application_link', $job->clang_id) .'<span class="jobs_arrow_right"></span></button></a></p>';
             } elseif ($show_application_form) { /** @phpstan-ignore-line */
-                echo '<p><a href="'. $job_application_link .'" title="'. \Sprog\Wildcard::get('jobs_application_link', $job->clang_id) .'">'
+                echo '<p><a href="'. rex_escape($job_application_link) .'" title="'. \Sprog\Wildcard::get('jobs_application_link', $job->clang_id) .'">'
                     .'<button class="d2u_application_form_button">'. \Sprog\Wildcard::get('jobs_application_link', $job->clang_id)
                     .'<span class="jobs_arrow_right"></span></button></a></p>';
             } elseif (false === $hide_application_hint) {
                 echo '<p class="appendix">'. \Sprog\Wildcard::get('jobs_footer', $job->clang_id)
-                    .'<br><br><a href="mailto:'. rex_config::get('jobs', 'email') .'" title="'. rex_config::get('jobs', 'email') .'">'. rex_config::get('jobs', 'email') .'</a>'
+                    .'<br><br><a href="mailto:'. rex_escape((string) rex_config::get('jobs', 'email')) .'" title="'. rex_escape((string) rex_config::get('jobs', 'email')) .'">'. rex_escape((string) rex_config::get('jobs', 'email')) .'</a>'
                     .'</p>';
             }
         }
@@ -241,16 +241,16 @@ if (rex::isBackend()) {
             echo '<div class="col-12">'. \Sprog\Wildcard::get('jobs_questions') .'</div>';
 
             echo '<div class="col-12 col-sm-4">';
-            echo '<img src="'. ('' !== $job->contact->picture ? rex_media_manager::getUrl('jobs_contact', $job->contact->picture) : \rex_url::addonAssets('jobs', 'noavatar.jpg'))  .'" alt="'. $job->contact->name .'">';
+            echo '<img src="'. rex_escape('' !== $job->contact->picture ? rex_media_manager::getUrl('jobs_contact', $job->contact->picture) : \rex_url::addonAssets('jobs', 'noavatar.jpg'))  .'" alt="'. rex_escape($job->contact->name) .'">';
             echo '</div>';
 
             echo '<div class="col-12 col-sm-8">';
-            echo '<h3 class="contact-heading">'. $job->contact->name .'</h3>';
+            echo '<h3 class="contact-heading">'. rex_escape($job->contact->name) .'</h3>';
             if ('' !== $job->contact->phone) {
-                echo \Sprog\Wildcard::get('jobs_phone', $job->clang_id) .': '. $job->contact->phone .'<br>';
+                echo \Sprog\Wildcard::get('jobs_phone', $job->clang_id) .': '. rex_escape($job->contact->phone) .'<br>';
             }
             if ('' !== $job->contact->email) {
-                echo '<a href="mailto:'. $job->contact->email .'" title="'. rex_config::get('jobs', 'email') .'">'.$job->contact->email .'</a>';
+                echo '<a href="mailto:'. rex_escape($job->contact->email) .'" title="'. rex_escape((string) rex_config::get('jobs', 'email')) .'">'.rex_escape($job->contact->email) .'</a>';
             }
             echo '</div>';
 
@@ -262,12 +262,12 @@ if (rex::isBackend()) {
             }
             if ('' !== $job->hr4you_url_application_form) {
                 echo '<div class="col-12">';
-                echo '<a target="_blank" href="'. $job->hr4you_url_application_form .'">'
+                echo '<a target="_blank" href="'. rex_escape($job->hr4you_url_application_form) .'">'
                     .'<button class="d2u_application_form_button">'. \Sprog\Wildcard::get('jobs_application_link', $job->clang_id) .'<span class="jobs_arrow_right"></span></button></a>';
                 echo '</div>';
             } elseif ($show_application_form) { /** @phpstan-ignore-line */
                 echo '<div class="col-12">';
-                echo '<a href="'. $job_application_link .'" title="'. \Sprog\Wildcard::get('jobs_application_link', $job->clang_id) .'">'
+                echo '<a href="'. rex_escape($job_application_link) .'" title="'. \Sprog\Wildcard::get('jobs_application_link', $job->clang_id) .'">'
                     .'<button class="d2u_application_form_button">'. \Sprog\Wildcard::get('jobs_application_link', $job->clang_id)
                     .'<span class="jobs_arrow_right"></span></button></a>';
                 echo '</div>';
@@ -285,7 +285,7 @@ if (rex::isBackend()) {
             echo '<div class="col-8">';
             echo '<h3 class="contact-heading">'. \Sprog\Wildcard::get('jobs_faq', $job->clang_id) .'</h3>';
             echo '<p>'. \Sprog\Wildcard::get('jobs_faq_text', $job->clang_id) .'</p>';
-            echo '<a href="'. $faq_article->getUrl() .'" title="'. $faq_article->getName() .'">'
+            echo '<a href="'. rex_escape($faq_article->getUrl()) .'" title="'. rex_escape($faq_article->getName()) .'">'
             .'<button class="d2u_application_form_button">'. \Sprog\Wildcard::get('jobs_faq_link', $job->clang_id)
             .'<span class="jobs_arrow_right"></span></button></a>';
             echo '</div>';
@@ -310,7 +310,7 @@ if (rex::isBackend()) {
             echo '<div class="col-12">';
             echo '<h1>'. \Sprog\Wildcard::get('jobs_vacancies', rex_clang::getCurrentId()) .' ';
             if (false !== $category) {
-                echo $category->name;
+                echo rex_escape($category->name);
             }
             echo '</h1>';
             echo '</div>';
@@ -325,7 +325,7 @@ if (rex::isBackend()) {
                     echo '<select id="filter_categories">';
                     echo '<option value="all">'. \Sprog\Wildcard::get('jobs_all') .'</option>';
                     foreach ($filter_categories as $filter_category) {
-                        echo '<option value="'. rex_string::normalize($filter_category->name) .'">'. $filter_category->name .'</option>';
+                        echo '<option value="'. rex_escape(rex_string::normalize($filter_category->name)) .'">'. rex_escape($filter_category->name) .'</option>';
                     }
                     echo '</select>';
                 } else {
@@ -336,7 +336,7 @@ if (rex::isBackend()) {
                     echo '<select id="filter_cities">';
                     echo '<option value="all">'. \Sprog\Wildcard::get('jobs_all') .'</option>';
                     foreach ($filter_cities as $filter_city) {
-                        echo '<option value="'. rex_string::normalize($filter_city) .'">'. $filter_city .'</option>';
+                        echo '<option value="'. rex_escape(rex_string::normalize($filter_city)) .'">'. rex_escape($filter_city) .'</option>';
                     }
                     echo '</select>';
                 } else {
@@ -351,18 +351,18 @@ if (rex::isBackend()) {
                 foreach ($job->categories as $job_category) {
                     $category_classes[] = rex_string::normalize($job_category->name);
                 }
-                echo '<div class="col-12 col-md-6 col-lg-4 d2u_job'. (count($category_classes) > 0 ? ' '. implode(' ', $category_classes) : '')  . ('' !== $job->city ? ' '. rex_string::normalize($job->city) : '') .'">';
-                echo '<a href="'. $job->getUrl() .'" class="job-box-list-link" title="'. strip_tags($job->name).'">';
+                echo '<div class="col-12 col-md-6 col-lg-4 d2u_job'. (count($category_classes) > 0 ? ' '. rex_escape(implode(' ', $category_classes)) : '')  . ('' !== $job->city ? ' '. rex_escape(rex_string::normalize($job->city)) : '') .'">';
+                echo '<a href="'. rex_escape($job->getUrl()) .'" class="job-box-list-link" title="'. rex_escape(strip_tags($job->name)).'">';
                 echo '<div class="job-box job-box-list" data-height-watch>';
-                echo '<img src="'. ('' !== $job->picture ? rex_media_manager::getUrl('jobs_joblist', $job->picture) : \rex_url::addonAssets('jobs', 'noavatar.jpg'))  .'" alt="'. strip_tags($job->name) .'">';
-                echo '<h2>'. $job->name .'</h2>';
+                echo '<img src="'. rex_escape('' !== $job->picture ? rex_media_manager::getUrl('jobs_joblist', $job->picture) : \rex_url::addonAssets('jobs', 'noavatar.jpg'))  .'" alt="'. rex_escape(strip_tags($job->name)) .'">';
+                echo '<h2>'. rex_escape($job->name) .'</h2>';
                 if ('' !== $job->city || '' !== $job->reference_number) {
                     echo '<p>';
                     if ('' !== $job->city) {
-                        echo \Sprog\Wildcard::get('jobs_region', rex_clang::getCurrentId()) .': '. $job->city . ('' !== $job->reference_number ? ' / ' : '');
+                        echo \Sprog\Wildcard::get('jobs_region', rex_clang::getCurrentId()) .': '. rex_escape($job->city) . ('' !== $job->reference_number ? ' / ' : '');
                     }
                     if ('' !== $job->reference_number) {
-                        echo \Sprog\Wildcard::get('jobs_reference_number', rex_clang::getCurrentId()) .': '. $job->reference_number;
+                        echo \Sprog\Wildcard::get('jobs_reference_number', rex_clang::getCurrentId()) .': '. rex_escape($job->reference_number);
                     }
                     echo '</p>';
                 }
