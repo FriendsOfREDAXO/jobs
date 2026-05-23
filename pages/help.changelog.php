@@ -3,6 +3,7 @@
 <h2>Changelog</h2>
 <p>1.3.1-DEV:</p>
 <ul>
+	<li>Backend: Abbrechen-Buttons in Stellen-, Kategorien- und Kontaktformularen fuehren jetzt wieder zur Liste.</li>
 	<li>Backend: CSRF-Schutz fuer Speichern-, Loesch- und Statusaktionen der Stellenverwaltung sowie fuer den HR4YOU-Import ergaenzt.</li>
 	<li>Backend: CSRF-Schutz fuer Modul-Installation, -Update und -Deinstallation auf der Setup-Seite ergaenzt.</li>
 	<li>Sicherheit: Job-, Category- und Contact-Modelle speichern jetzt mit gebundenen Parametern. Die bisherigen addslashes()-Aufrufe und String-Konkatenationen in Save- und Suchqueries entfallen damit.</li>
