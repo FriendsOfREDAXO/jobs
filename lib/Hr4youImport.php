@@ -84,7 +84,7 @@ class Hr4youImport
                 
                 // If no extension or suspicious extension, detect from actual image data
                 if (!isset($job_picture_pathInfo['extension']) || empty($job_picture_pathInfo['extension']) || 
-                    !in_array(strtolower($job_picture_pathInfo['extension']), ['jpg', 'jpeg', 'png', 'gif', 'webp'])) {
+                    !in_array(strtolower($job_picture_pathInfo['extension']), ['jpg', 'jpeg', 'png', 'gif', 'webp'], true)) {
                     
                     // Download a small part of the image to detect the real format
                     $context = stream_context_create([
@@ -362,7 +362,9 @@ class Hr4youImport
             return '';
         }
 
-        $unit_text = $data['baseSalary']['value']['unitText'] ?? '';
+        $base_salary = is_array($data['baseSalary'] ?? null) ? $data['baseSalary'] : [];
+        $base_value = is_array($base_salary['value'] ?? null) ? $base_salary['value'] : [];
+        $unit_text = $base_value['unitText'] ?? '';
         return is_string($unit_text) ? $unit_text : '';
     }
 
@@ -379,6 +381,9 @@ class Hr4youImport
         
         // Check for common image file signatures (magic bytes)
         $bytes = unpack('C4', substr($data, 0, 4));
+        if (false === $bytes) {
+            return false;
+        }
         
         // JPEG: FF D8 FF
         if ($bytes[1] === 0xFF && $bytes[2] === 0xD8 && $bytes[3] === 0xFF) {

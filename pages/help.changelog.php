@@ -10,6 +10,7 @@
 	<li>Sicherheit: boot.php (Medien-In-Use-Check) bindet den Dateinamen jetzt als Parameter und escaped die ausgegebenen Job-, Kategorie- und Kontaktnamen.</li>
 	<li>Sicherheit: Module 23-1 bis 23-4 sowie der FrontendHelper escapen Job-, Kategorie- und Kontaktdaten in HTML-Attributen, URLs und Ueberschriften, damit aus der Datenbank stammende Werte (z.B. aus dem HR4YOU-Import) nicht als HTML interpretiert werden.</li>
 	<li>Sicherheit: Backend-Hinweise auf der Kategorie- und Kontakt-Seite escapen Jobnamen.</li>
+	<li>Robustheit: HR4YOU-Import (<code>lib/Hr4youImport.php</code>) gegen fehlerhafte Eingaben gehärtet: <code>unpack()</code>-Rückgabe wird vor dem Byte-Zugriff auf <code>false</code> geprüft, die verschachtelte Salary-JSON-Auswertung (<code>baseSalary/value/unitText</code>) ist gegen Nicht-Array-Strukturen abgesichert und die Bild-Endungsprüfung nutzt jetzt den strikten <code>in_array()</code>-Vergleich.</li>
 </ul>
 <p>1.3.0:</p>
 <ul>
