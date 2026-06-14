@@ -218,7 +218,7 @@ if (rex::isBackend()) {
                 echo prepareText($job->offer_text);
             }
             if ('' !== $job->hr4you_url_application_form) {
-                echo '<p><a target="_blank" href="'. rex_escape($job->hr4you_url_application_form) .'">'
+                echo '<p><a target="_blank" rel="noopener noreferrer" href="'. rex_escape($job->hr4you_url_application_form) .'">'
                     .'<button class="d2u_application_form_button">'. \Sprog\Wildcard::get('jobs_application_link', $job->clang_id) .'<span class="jobs_arrow_right"></span></button></a></p>';
             } elseif ($show_application_form) { /** @phpstan-ignore-line */
                 echo '<p><a href="'. rex_escape($job_application_link) .'" title="'. \Sprog\Wildcard::get('jobs_application_link', $job->clang_id) .'">'
@@ -256,13 +256,13 @@ if (rex::isBackend()) {
 
             if ('' !== $job->contact->phone_video) {
                 echo '<div class="col-12">';
-                echo '<a target="_blank" href="https://api.whatsapp.com/send?phone='. preg_replace('/[^0-9]/', '', $job->contact->phone_video) .'">'
+                echo '<a target="_blank" rel="noopener noreferrer" href="https://api.whatsapp.com/send?phone='. preg_replace('/[^0-9]/', '', $job->contact->phone_video) .'">'
                     .'<button class="d2u_application_form_button"><span class="jobs_video"></span>'. \Sprog\Wildcard::get('jobs_video_application', $job->clang_id) .'<span class="jobs_arrow_right"></span></button></a>';
                 echo '</div>';
             }
             if ('' !== $job->hr4you_url_application_form) {
                 echo '<div class="col-12">';
-                echo '<a target="_blank" href="'. rex_escape($job->hr4you_url_application_form) .'">'
+                echo '<a target="_blank" rel="noopener noreferrer" href="'. rex_escape($job->hr4you_url_application_form) .'">'
                     .'<button class="d2u_application_form_button">'. \Sprog\Wildcard::get('jobs_application_link', $job->clang_id) .'<span class="jobs_arrow_right"></span></button></a>';
                 echo '</div>';
             } elseif ($show_application_form) { /** @phpstan-ignore-line */
