@@ -306,6 +306,8 @@ if (rex::isBackend()) {
         $jobs = Job::getAll(rex_clang::getCurrentId(), $category_id, true);
         echo '<div class="col-12">';
         echo '<div class="row" data-match-height>';
+        $filter_categories = [];
+        $filter_cities = [];
         if (count($jobs) > 0) {
             echo '<div class="col-12">';
             echo '<h1>'. \Sprog\Wildcard::get('jobs_vacancies', rex_clang::getCurrentId()) .' ';
