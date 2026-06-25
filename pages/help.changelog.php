@@ -3,6 +3,7 @@
 <h2>Changelog</h2>
 <p>1.3.2-DEV:</p>
 <ul>
+	<li>Bugfix: Der Online/Offline-Schalter in der Stellen-Liste funktioniert wieder. Beim Erzeugen des CSRF-geschützten Status-Links wurde der Platzhalter für die Datensatz-ID URL-kodiert und dadurch nicht mehr durch die echte ID ersetzt.</li>
 	<li>Barrierefreiheit/Sicherheit: In neuen Tabs öffnende Links (HR4YOU-Bewerbungsformulare, WhatsApp-Video-Bewerbung) in den Modulen 23-1 und 23-3 erhalten jetzt <code>rel="noopener noreferrer"</code>.</li>
 </ul>
 <p>1.3.1:</p>
