@@ -65,6 +65,7 @@ jobs_hr4you_settings_hr4you_default_category = Standard category
 jobs_hr4you_settings_hr4you_media_category = Standard mediapool category
 jobs_hr4you_settings_hr4you_xml_url = XML URL
 jobs_hr4you_settings_headline_tag = HTML heading tag used in XML file for headings
+jobs_hr4you_settings_headline_option = Heading {0}
 jobs_hr4you_settings_default_lang = Import default language
 jobs_hr4you_settings_xml_url = HR4You XML URL
 jobs_hr4you_url_application_form = URL HR4You application form

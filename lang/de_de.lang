@@ -65,6 +65,7 @@ jobs_hr4you_settings_hr4you_default_category = Standard Kategorie
 jobs_hr4you_settings_hr4you_media_category = Standard Medienpool Kategorie
 jobs_hr4you_settings_hr4you_xml_url = XML URL
 jobs_hr4you_settings_headline_tag = Im Importtext verwendetes Tag für Überschriften
+jobs_hr4you_settings_headline_option = Überschrift {0}
 jobs_hr4you_settings_default_lang = Sprache des Imports
 jobs_hr4you_settings_xml_url = URL zu importierende XML-Datei
 jobs_hr4you_url_application_form = URL zum Bewerbungsformular

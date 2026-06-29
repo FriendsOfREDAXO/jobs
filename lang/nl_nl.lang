@@ -65,6 +65,7 @@ jobs_hr4you_settings_hr4you_default_category = Standaardcategorie
 jobs_hr4you_settings_hr4you_media_category = Standaard mediapoolcategorie
 jobs_hr4you_settings_hr4you_xml_url = XML-URL
 jobs_hr4you_settings_headline_tag = Tag voor kopteksten in de importtekst
+jobs_hr4you_settings_headline_option = Koptekst {0}
 jobs_hr4you_settings_default_lang = Taal van de import
 jobs_hr4you_settings_xml_url = URL van het te importeren XML-bestand
 jobs_hr4you_url_application_form = URL naar het sollicitatieformulier

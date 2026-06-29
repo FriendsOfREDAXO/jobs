@@ -162,7 +162,7 @@ if (!$invalidCsrf && 'save' === filter_input(INPUT_POST, 'btn_save')) {
                         BackendHelper::form_select('jobs_hr4you_settings_hr4you_default_category', 'settings[hr4you_default_category]', $job_category_options, [(string) rex_config::get('jobs', 'hr4you_default_category')]);
                         $job_headline_options = [];
                         for ($i = 1; $i <= 6; ++$i) {
-                            $job_headline_options['h'. $i] = htmlspecialchars('Überschrift <h'. $i .'>');
+                            $job_headline_options['h'. $i] = htmlspecialchars(rex_i18n::msg('jobs_hr4you_settings_headline_option', $i));
                         }
                         BackendHelper::form_select('jobs_hr4you_settings_headline_tag', 'settings[hr4you_headline_tag]', $job_headline_options, [(string) rex_config::get('jobs', 'hr4you_headline_tag')]);
                         BackendHelper::form_checkbox('jobs_hr4you_settings_hr4you_autoimport', 'settings[hr4you_autoimport]', 'active', 'active' === rex_config::get('jobs', 'hr4you_autoimport'));
