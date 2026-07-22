@@ -68,8 +68,10 @@ if (!$invalidCsrf && (1 === (int) filter_input(INPUT_POST, 'btn_save') || 1 === 
             $job->type = (string) $form['type'];
             $job->internal_name = (string) $form['internal_name'];
             $job->contact = new Contact($form['contact_id']);
-            $job->hr4you_lead_in = (string) $form['hr4you_lead_in'];
-            $job->hr4you_url_application_form = (string) $form['hr4you_url_application_form'];
+            if ((bool) rex_config::get('jobs', 'use_hr4you')) {
+                $job->hr4you_lead_in = (string) $form['hr4you_lead_in'];
+                $job->hr4you_url_application_form = (string) $form['hr4you_url_application_form'];
+            }
             $job->salary_currency = (string) $form['salary_currency'];
             $job->salary_min = (int) $form['salary_min'];
             $job->salary_max = (int) $form['salary_max'];
@@ -228,6 +230,7 @@ if ('edit' === $func || 'clone' === $func || 'add' === $func) {
                         ?>
 					</div>
 				</fieldset>
+				<?php if ((bool) rex_config::get('jobs', 'use_hr4you')): ?>
                 <fieldset>
                     <legend><small><i class="rex-icon fa-cloud-download"></i></small> <?= rex_i18n::msg('jobs_hr4you') ?></legend>
                     <div class="panel-body-wrapper slide">
@@ -238,6 +241,7 @@ if ('edit' === $func || 'clone' === $func || 'add' === $func) {
                         ?>
                     </div>
                 </fieldset>
+				<?php endif; ?>
 				<?php
                     foreach (rex_clang::getAll() as $rex_clang) {
                         $job = new Job($entry_id, $rex_clang->getId());

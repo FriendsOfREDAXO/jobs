@@ -50,7 +50,9 @@ if (!$invalidCsrf && (1 === (int) filter_input(INPUT_POST, 'btn_save') || 1 === 
             $category->category_id = $category_id; // Ensure correct ID in case first language has no object
             $category->priority = (int) $form['priority'];
             $category->picture = $input_media[1];
-            $category->hr4you_category_id = $form['hr4you_category_id'];
+            if ((bool) rex_config::get('jobs', 'use_hr4you')) {
+                $category->hr4you_category_id = $form['hr4you_category_id'];
+            }
         } else {
             $category->clang_id = $rex_clang->getId();
         }
@@ -146,7 +148,9 @@ if ('edit' === $func || 'add' === $func) {
 
                             BackendHelper::form_input('header_priority', 'form[priority]', $category->priority, true, $readonly, 'number');
                             BackendHelper::form_mediafield('d2u_helper_picture', '1', $category->picture, $readonly);
-                            BackendHelper::form_input('jobs_hr4you_category_id', 'form[hr4you_category_id]', $category->hr4you_category_id, false, $readonly, 'number');
+                            if ((bool) rex_config::get('jobs', 'use_hr4you')) {
+                                BackendHelper::form_input('jobs_hr4you_category_id', 'form[hr4you_category_id]', $category->hr4you_category_id, false, $readonly, 'number');
+                            }
                         ?>
 					</div>
 				</fieldset>
