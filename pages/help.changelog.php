@@ -3,6 +3,8 @@
 <h2>Changelog</h2>
 <p>1.3.2-DEV:</p>
 <ul>
+	<li>Bugfix Module 23-1 (BS4) und 23-3 (BS5, Stellenanzeigen): Wenn keine Stellenangebote vorhanden sind, wird jetzt eine Überschrift (<code>jobs_vacancies</code>) sowie der Hinweis "<code>jobs_no_jobs_found</code>" angezeigt. Bisher blieb die Meldung durch das CSS <code>#jobs_no_vacancies { display: none; }</code> ausgeblendet, da sie nur vom Filter-JavaScript eingeblendet wurde (das erst ab mehr als einer Stelle greift); die Überschrift erscheint jetzt unabhängig von der Anzahl der Stellen.</li>
+	<li>Neu Module 23-2 (BS4) und 23-4 (BS5, Kategorien): Die Kategorienübersicht erhält jetzt eine Überschrift (<code>jobs_catgories</code>). Wenn keine Kategorien vorhanden sind, wird zusätzlich der Hinweis "<code>jobs_no_categories_found</code>" angezeigt (neuer Sprachschluessel in de/en/nl).</li>
 	<li>Bugfix: Der Online/Offline-Schalter in der Stellen-Liste funktioniert wieder. Beim Erzeugen des CSRF-geschützten Status-Links wurde der Platzhalter für die Datensatz-ID URL-kodiert und dadurch nicht mehr durch die echte ID ersetzt.</li>
 	<li>Barrierefreiheit/Sicherheit: In neuen Tabs öffnende Links (HR4YOU-Bewerbungsformulare, WhatsApp-Video-Bewerbung) in den Modulen 23-1 und 23-3 erhalten jetzt <code>rel="noopener noreferrer"</code>.</li>
 	<li>Intern: Das in den HR4YOU-Einstellungen hartcodierte Wort „Überschrift" in der Tag-Auswahl wurde in die Sprachdateien (<code>jobs_hr4you_settings_headline_option</code>) ausgelagert.</li>

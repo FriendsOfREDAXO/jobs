@@ -18,16 +18,16 @@ class Module
         $modules = [];
         $modules[] = new \TobiasKrais\D2UHelper\Module('23-1',
             'Stellenmarkt - Stellenanzeigen (BS4, deprecated)',
-            17);
+            18);
         $modules[] = new \TobiasKrais\D2UHelper\Module('23-2',
             'Stellenmarkt - Kategorien (BS4, deprecated)',
-            4);
+            5);
         $modules[] = new \TobiasKrais\D2UHelper\Module('23-3',
             'Stellenmarkt - Stellenanzeigen (BS5)',
-            2);
+            3);
         $modules[] = new \TobiasKrais\D2UHelper\Module('23-4',
             'Stellenmarkt - Kategorien (BS5)',
-            2);
+            3);
         return $modules;
     }
 }

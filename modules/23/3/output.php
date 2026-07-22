@@ -308,14 +308,14 @@ if (rex::isBackend()) {
         echo '<div class="row" data-match-height>';
         $filter_categories = [];
         $filter_cities = [];
+        echo '<div class="col-12">';
+        echo '<h1>'. \Sprog\Wildcard::get('jobs_vacancies', rex_clang::getCurrentId()) .' ';
+        if (false !== $category) {
+            echo rex_escape($category->name);
+        }
+        echo '</h1>';
+        echo '</div>';
         if (count($jobs) > 0) {
-            echo '<div class="col-12">';
-            echo '<h1>'. \Sprog\Wildcard::get('jobs_vacancies', rex_clang::getCurrentId()) .' ';
-            if (false !== $category) {
-                echo rex_escape($category->name);
-            }
-            echo '</h1>';
-            echo '</div>';
 
             // Job filter
             $filter_categories = Category::getAll(rex_clang::getCurrentId(), true);
@@ -373,7 +373,7 @@ if (rex::isBackend()) {
                 echo '</div>';
             }
         }
-        echo '<div id="jobs_no_vacancies" class="col-12">';
+        echo '<div id="jobs_no_vacancies" class="col-12"'. (0 === count($jobs) ? ' style="display: block;"' : '') .'>';
         echo '<p>'. \Sprog\Wildcard::get('jobs_no_jobs_found', rex_clang::getCurrentId()) .'</p>';
         echo '</div>';
 

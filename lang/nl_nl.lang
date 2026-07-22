@@ -10,6 +10,7 @@ jobs_internal_name = Interne benaming
 jobs_jobs = Vacatures
 jobs_no_contacts_found = Er zijn nog geen contactpersonen aangemaakt.
 jobs_no_jobs_found = Er zijn nog geen vacatures aangemaakt.
+jobs_no_categories_found = Er zijn nog geen categorieën aangemaakt.
 jobs_not_saved_no_lang = Invoer is niet opgeslagen omdat er geen taalgegevens zijn ingevuld.
 jobs_offer_heading = Koptekst aanbod
 jobs_offer_text = Beschrijving "Ons aanbod"

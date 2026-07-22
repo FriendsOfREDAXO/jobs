@@ -10,6 +10,7 @@ jobs_internal_name = Interne Bezeichnung
 jobs_jobs = Stellen
 jobs_no_contacts_found = Es wurden noch keine Kontakte angelegt.
 jobs_no_jobs_found = Es wurden noch keine Stellenangebote angelegt.
+jobs_no_categories_found = Es wurden noch keine Kategorien angelegt.
 jobs_not_saved_no_lang = Eingaben wurden nicht gespeichert, da keine Sprachdaten ausgefüllt wurden.
 jobs_offer_heading = Überschrift Angebot
 jobs_offer_text = Beschreibung "Unser Angebot"
