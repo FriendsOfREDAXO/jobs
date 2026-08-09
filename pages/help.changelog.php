@@ -1,6 +1,10 @@
 <?php
 ?>
 <h2>Changelog</h2>
+<p>1.3.3-DEV:</p>
+<ul>
+	<li>...</li>
+</ul>
 <p>1.3.2:</p>
 <ul>
 	<li>Wartung: Interne CI-Dateien im Verzeichnis <code>.github</code> (GitHub Actions, Dependabot) werden nicht mehr mit dem Installer-Paket ausgeliefert.</li>
