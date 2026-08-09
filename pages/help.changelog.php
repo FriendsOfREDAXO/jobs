@@ -1,7 +1,7 @@
 <?php
 ?>
 <h2>Changelog</h2>
-<p>1.3.2-DEV:</p>
+<p>1.3.2:</p>
 <ul>
 	<li>Backend Kategorien und Stellen: Die HR4You-Felder werden im Kategorie- bzw. Stellen-Formular nur noch angezeigt, wenn der HR4YOU-Import in den Einstellungen aktiviert ist (<code>use_hr4you</code>). Beim Speichern werden die Werte bei deaktiviertem HR4YOU nicht mehr ueberschrieben.</li>
 	<li>Bugfix Module 23-1 (BS4) und 23-3 (BS5, Stellenanzeigen): Wenn keine Stellenangebote vorhanden sind, wird jetzt eine Überschrift (<code>jobs_vacancies</code>) sowie der Hinweis "<code>jobs_no_jobs_found</code>" angezeigt. Bisher blieb die Meldung durch das CSS <code>#jobs_no_vacancies { display: none; }</code> ausgeblendet, da sie nur vom Filter-JavaScript eingeblendet wurde (das erst ab mehr als einer Stelle greift); die Überschrift erscheint jetzt unabhängig von der Anzahl der Stellen.</li>
