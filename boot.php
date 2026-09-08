@@ -25,6 +25,7 @@ if (rex::isBackend()) {
     rex_extension::register('ART_PRE_DELETED', rex_jobs_article_is_in_use(...));
     rex_extension::register('CLANG_DELETED', rex_jobs_clang_deleted(...));
     rex_extension::register('D2U_HELPER_TRANSLATION_LIST', rex_jobs_translation_list(...));
+    rex_extension::register('D2U_HELPER_TRANSLATE_OBJECT', rex_jobs_translate_object(...));
     rex_extension::register('MEDIA_IS_IN_USE', rex_jobs_media_is_in_use(...));
 }
 else {
@@ -239,7 +240,7 @@ function rex_jobs_translation_list(rex_extension_point $ep) {
             if ('' === $category->name) {
                 $category = new \FriendsOfRedaxo\Jobs\Category($category->category_id, $source_clang_id);
             }
-            $html_categories .= '<li><a href="'. rex_url::backendPage('jobs/category', ['entry_id' => $category->category_id, 'func' => 'edit']) .'">'. $category->name .'</a></li>';
+            $html_categories .= \TobiasKrais\D2UHelper\BackendHelper::getTranslationItem('jobs', 'category', $category->category_id, $category->name, rex_url::backendPage('jobs/category', ['entry_id' => $category->category_id, 'func' => 'edit']));
         }
         $html_categories .= '</ul>';
         
@@ -257,7 +258,7 @@ function rex_jobs_translation_list(rex_extension_point $ep) {
             if ('' === $job->name) {
                 $job = new \FriendsOfRedaxo\Jobs\Job($job->job_id, $source_clang_id);
             }
-            $html_jobs .= '<li><a href="'. rex_url::backendPage('jobs/jobs', ['entry_id' => $job->job_id, 'func' => 'edit']) .'">'. $job->name .'</a></li>';
+            $html_jobs .= \TobiasKrais\D2UHelper\BackendHelper::getTranslationItem('jobs', 'job', $job->job_id, $job->name, rex_url::backendPage('jobs/jobs', ['entry_id' => $job->job_id, 'func' => 'edit']));
         }
         $html_jobs .= '</ul>';
         
@@ -271,4 +272,57 @@ function rex_jobs_translation_list(rex_extension_point $ep) {
     $list[] = $list_entry;
 
     return $list;
+}
+
+/**
+ * Translate a single jobs object with AI (D2U_HELPER_TRANSLATE_OBJECT).
+ * @param rex_extension_point<array<string,mixed>> $ep Redaxo extension point
+ * @return array<string,mixed> Result array with success, name and message
+ */
+function rex_jobs_translate_object(rex_extension_point $ep) {
+    $params = $ep->getParams();
+    if ('jobs' !== ($params['addon'] ?? '')) {
+        return $ep->getSubject();
+    }
+
+    $type = (string) ($params['type'] ?? '');
+    $id = (int) ($params['id'] ?? 0);
+    $source_clang_id = (int) ($params['source_clang_id'] ?? 0);
+    $target_clang_id = (int) ($params['target_clang_id'] ?? 0);
+
+    // These constructors only return a row when a translation for that clang
+    // exists. For missing translations load the source and retarget it.
+    $object = null;
+    switch ($type) {
+        case 'category':
+            $category = new \FriendsOfRedaxo\Jobs\Category($id, $target_clang_id);
+            if ($category->category_id <= 0) {
+                $category = new \FriendsOfRedaxo\Jobs\Category($id, $source_clang_id);
+                $category->clang_id = $target_clang_id;
+            }
+            $object = $category->category_id > 0 ? $category : null;
+            break;
+        case 'job':
+            $job = new \FriendsOfRedaxo\Jobs\Job($id, $target_clang_id);
+            if ($job->job_id <= 0) {
+                $job = new \FriendsOfRedaxo\Jobs\Job($id, $source_clang_id);
+                $job->clang_id = $target_clang_id;
+            }
+            $object = $job->job_id > 0 ? $job : null;
+            break;
+        default:
+            return $ep->getSubject();
+    }
+
+    if (!$object instanceof \TobiasKrais\D2UHelper\ITranslateable) {
+        return ['success' => false, 'name' => '', 'message' => rex_i18n::msg('d2u_helper_translations_ai_error')];
+    }
+
+    $success = $object->translateFrom($source_clang_id);
+
+    return [
+        'success' => $success,
+        'name' => $object->name,
+        'message' => $success ? '' : rex_i18n::msg('d2u_helper_translations_ai_error'),
+    ];
 }

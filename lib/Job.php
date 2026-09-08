@@ -19,7 +19,7 @@ use function is_array;
  * @api
  * Job details.
  */
-class Job implements \TobiasKrais\D2UHelper\ITranslationHelper
+class Job implements \TobiasKrais\D2UHelper\ITranslationHelper, \TobiasKrais\D2UHelper\ITranslateable
 {
     /** @var int Database job ID */
     public int $job_id = 0;
@@ -625,6 +625,52 @@ class Job implements \TobiasKrais\D2UHelper\ITranslationHelper
 
         return $this->url;
 
+    }
+
+    /**
+     * Translate this job from a source language into its own (target) language
+     * using ai_platform and store the result.
+     * @param int $sourceClangId Redaxo clang id of the source language
+     * @return bool true on success
+     */
+    public function translateFrom(int $sourceClangId): bool
+    {
+        if ($this->job_id <= 0 || $sourceClangId === $this->clang_id) {
+            return false;
+        }
+
+        $source = new self($this->job_id, $sourceClangId);
+        if ($source->job_id <= 0) {
+            return false;
+        }
+
+        try {
+            $translated = \TobiasKrais\D2UHelper\AiTranslationHelper::translateFields([
+                'name' => ['value' => $source->name, 'html' => false],
+                'prolog' => ['value' => $source->prolog, 'html' => true],
+                'tasks_heading' => ['value' => $source->tasks_heading, 'html' => false],
+                'tasks_text' => ['value' => $source->tasks_text, 'html' => true],
+                'profile_heading' => ['value' => $source->profile_heading, 'html' => false],
+                'profile_text' => ['value' => $source->profile_text, 'html' => true],
+                'offer_heading' => ['value' => $source->offer_heading, 'html' => false],
+                'offer_text' => ['value' => $source->offer_text, 'html' => true],
+            ], $sourceClangId, $this->clang_id);
+        } catch (\Throwable $e) {
+            return false;
+        }
+
+        $this->name = $translated['name'];
+        $this->prolog = $translated['prolog'];
+        $this->tasks_heading = $translated['tasks_heading'];
+        $this->tasks_text = $translated['tasks_text'];
+        $this->profile_heading = $translated['profile_heading'];
+        $this->profile_text = $translated['profile_text'];
+        $this->offer_heading = $translated['offer_heading'];
+        $this->offer_text = $translated['offer_text'];
+        $this->translation_needs_update = 'no';
+
+        // save() returns the error flag (true on error), so success is its negation.
+        return false === $this->save();
     }
 
     /**
