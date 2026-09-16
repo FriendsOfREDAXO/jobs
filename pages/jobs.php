@@ -203,7 +203,7 @@ if ('edit' === $func || 'clone' === $func || 'add' === $func) {
                             BackendHelper::form_select('jobs_country_code', 'form[country_code]', $options_country_code, [$job->country_code], 1, false, $readonly);
                             BackendHelper::form_checkbox('d2u_helper_online_status', 'form[online_status]', 'online', 'online' === $job->online_status, $readonly);
                             BackendHelper::form_mediafield('d2u_helper_picture', '1', $job->picture, $readonly);
-                            echo '<p class="rex-note">'. rex_i18n::msg('jobs_seo_hint_image') .'</p>';
+                            echo '<p class="rex-note">'. rex_i18n::msg('d2u_helper_seo_hint_image') .'</p>';
                             $options_type = ['FULL_TIME' => rex_i18n::msg('jobs_type_FULL_TIME'),
                                 'PART_TIME' => rex_i18n::msg('jobs_type_PART_TIME'),
                                 'CONTRACTOR' => rex_i18n::msg('jobs_type_CONTRACTOR'),
@@ -278,10 +278,10 @@ if ('edit' === $func || 'clone' === $func || 'add' === $func) {
 								<?php
                                     BackendHelper::form_textarea('jobs_prolog', 'form[lang]['. $rex_clang->getId() .'][prolog]', $job->prolog, 5, false, $readonly_lang, true);
                                     BackendHelper::form_input('d2u_helper_name', 'form[lang]['. $rex_clang->getId() .'][name]', $job->name, false, $readonly_lang);
-                                    echo '<p class="rex-note">'. rex_i18n::msg('jobs_seo_hint_meta_title') .'</p>';
+                                    echo '<p class="rex-note">'. rex_i18n::msg('d2u_helper_seo_hint_meta_title') .'</p>';
                                     BackendHelper::form_input('jobs_tasks_heading', 'form[lang]['. $rex_clang->getId() .'][tasks_heading]', $job->tasks_heading, false, $readonly_lang);
                                     BackendHelper::form_textarea('jobs_tasks_text', 'form[lang]['. $rex_clang->getId() .'][tasks_text]', $job->tasks_text, 5, false, $readonly_lang, true);
-                                    echo '<p class="rex-note">'. rex_i18n::msg('jobs_seo_hint_meta_description') .'</p>';
+                                    echo '<p class="rex-note">'. rex_i18n::msg('d2u_helper_seo_hint_meta_description') .'</p>';
                                     BackendHelper::form_input('jobs_profile_heading', 'form[lang]['. $rex_clang->getId() .'][profile_heading]', $job->profile_heading, false, $readonly_lang);
                                     BackendHelper::form_textarea('jobs_profile_text', 'form[lang]['. $rex_clang->getId() .'][profile_text]', $job->profile_text, 5, false, $readonly_lang, true);
                                     BackendHelper::form_input('jobs_offer_heading', 'form[lang]['. $rex_clang->getId() .'][offer_heading]', $job->offer_heading, false, $readonly_lang);
