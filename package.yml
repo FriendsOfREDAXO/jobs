@@ -28,7 +28,7 @@ page:
 requires:
     redaxo: '>=5.16.0'
     packages:
-        d2u_helper: '>=2.2.8'
+        d2u_helper: '>=2.3.0'
         sprog: '>=1.0.0'
         url: '>=2.0'
         yrewrite: '>=2.0.1'
