@@ -148,6 +148,7 @@ if ('edit' === $func || 'add' === $func) {
 
                             BackendHelper::form_input('header_priority', 'form[priority]', $category->priority, true, $readonly, 'number');
                             BackendHelper::form_mediafield('d2u_helper_picture', '1', $category->picture, $readonly);
+                            echo '<p class="rex-note">'. rex_i18n::msg('jobs_seo_hint_image') .'</p>';
                             if ((bool) rex_config::get('jobs', 'use_hr4you')) {
                                 BackendHelper::form_input('jobs_hr4you_category_id', 'form[hr4you_category_id]', $category->hr4you_category_id, false, $readonly, 'number');
                             }
@@ -192,6 +193,7 @@ if ('edit' === $func || 'add' === $func) {
 							<div id="details_clang_<?= $rex_clang->getId() ?>">
 								<?php
                                     BackendHelper::form_input('d2u_helper_name', 'form[lang]['. $rex_clang->getId() .'][name]', $category->name, $required, $readonly_lang);
+                                    echo '<p class="rex-note">'. rex_i18n::msg('jobs_seo_hint_meta_title') .'</p>';
                                 ?>
 							</div>
 						</div>
