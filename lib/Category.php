@@ -275,6 +275,12 @@ class Category implements \TobiasKrais\D2UHelper\ITranslationHelper, \TobiasKrai
 
     }
 
+    /** @var string|null Last AI translation error detail (for debugging the translation helper). */
+    public ?string $translateError = null;
+
+    /** @var string|null Machine-readable reason for the last failed translation ('invalid'|'no_source'|'ai'). */
+    public ?string $translateErrorCode = null;
+
     /**
      * Translate this category name from a source language into its own (target)
      * language using ai_platform and store the result.
@@ -284,11 +290,15 @@ class Category implements \TobiasKrais\D2UHelper\ITranslationHelper, \TobiasKrai
     public function translateFrom(int $sourceClangId): bool
     {
         if ($this->category_id <= 0 || $sourceClangId === $this->clang_id) {
+            $this->translateErrorCode = 'invalid';
+            $this->translateError = 'invalid request: category_id='. $this->category_id .' sourceClang='. $sourceClangId .' targetClang='. $this->clang_id;
             return false;
         }
 
         $source = new self($this->category_id, $sourceClangId);
         if ($source->category_id <= 0 || '' === $source->name) {
+            $this->translateErrorCode = 'no_source';
+            $this->translateError = 'no source content: category #'. $this->category_id .' has no data in the source language (clang '. $sourceClangId .')';
             return false;
         }
 
@@ -297,6 +307,9 @@ class Category implements \TobiasKrais\D2UHelper\ITranslationHelper, \TobiasKrai
                 'name' => ['value' => $source->name, 'html' => false],
             ], $sourceClangId, $this->clang_id);
         } catch (\Throwable $e) {
+            \rex_logger::logException($e);
+            $this->translateErrorCode = 'ai';
+            $this->translateError = get_class($e) . ': ' . $e->getMessage();
             return false;
         }
 

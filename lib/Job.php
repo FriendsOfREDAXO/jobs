@@ -627,6 +627,12 @@ class Job implements \TobiasKrais\D2UHelper\ITranslationHelper, \TobiasKrais\D2U
 
     }
 
+    /** @var string|null Last AI translation error detail (for debugging the translation helper). */
+    public ?string $translateError = null;
+
+    /** @var string|null Machine-readable reason for the last failed translation ('invalid'|'no_source'|'ai'). */
+    public ?string $translateErrorCode = null;
+
     /**
      * Translate this job from a source language into its own (target) language
      * using ai_platform and store the result.
@@ -634,13 +640,16 @@ class Job implements \TobiasKrais\D2UHelper\ITranslationHelper, \TobiasKrais\D2U
      * @return bool true on success
      */
     public function translateFrom(int $sourceClangId): bool
-    {
-        if ($this->job_id <= 0 || $sourceClangId === $this->clang_id) {
+    {        if ($this->job_id <= 0 || $sourceClangId === $this->clang_id) {
+            $this->translateErrorCode = 'invalid';
+            $this->translateError = 'invalid request: job_id='. $this->job_id .' sourceClang='. $sourceClangId .' targetClang='. $this->clang_id;
             return false;
         }
 
         $source = new self($this->job_id, $sourceClangId);
         if ($source->job_id <= 0) {
+            $this->translateErrorCode = 'no_source';
+            $this->translateError = 'no source content: job #'. $this->job_id .' has no data in the source language (clang '. $sourceClangId .')';
             return false;
         }
 
@@ -656,6 +665,9 @@ class Job implements \TobiasKrais\D2UHelper\ITranslationHelper, \TobiasKrais\D2U
                 'offer_text' => ['value' => $source->offer_text, 'html' => true],
             ], $sourceClangId, $this->clang_id);
         } catch (\Throwable $e) {
+            \rex_logger::logException($e);
+            $this->translateErrorCode = 'ai';
+            $this->translateError = get_class($e) . ': ' . $e->getMessage();
             return false;
         }
 

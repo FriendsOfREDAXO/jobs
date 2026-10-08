@@ -320,9 +320,19 @@ function rex_jobs_translate_object(rex_extension_point $ep) {
 
     $success = $object->translateFrom($source_clang_id);
 
+    $code = $success ? '' : (string) ($object->translateErrorCode ?? '');
+    $message = '';
+    if (!$success) {
+        $message = 'no_source' === $code
+            ? rex_i18n::msg('d2u_helper_translations_no_source')
+            : rex_i18n::msg('d2u_helper_translations_ai_error');
+    }
+
     return [
         'success' => $success,
         'name' => $object->name,
-        'message' => $success ? '' : rex_i18n::msg('d2u_helper_translations_ai_error'),
+        'message' => $message,
+        // no_source is self-explanatory; only attach debug detail for real failures.
+        'debug' => ('' !== $code && 'no_source' !== $code) ? (string) ($object->translateError ?? '') : '',
     ];
 }
